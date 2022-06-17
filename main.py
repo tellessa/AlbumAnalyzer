@@ -20,7 +20,6 @@ def main():
     while True:
         print(QUESTION)
         for option in OPTIONS.keys():
-            # print(f"{option}.__qualname__")
             print(f"{option}")
         user_choice_index = input()
         for choice in OPTIONS:
