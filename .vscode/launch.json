@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: plt_graphs_and_charts.py",
+            "type": "python",
+            "request": "launch",
+            "program": "plt_graphs_and_charts.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
