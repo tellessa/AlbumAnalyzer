@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: plt_graphs_and_charts.py",
+            "name": "Python: main",
             "type": "python",
             "request": "launch",
-            "program": "plt_graphs_and_charts.py",
+            "program": "main.py",
             "console": "integratedTerminal",
             "justMyCode": true
         },

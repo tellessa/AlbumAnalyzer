@@ -1,8 +1,5 @@
-
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
-
 import pandas as pd
 
 
@@ -129,38 +126,3 @@ def read_csv():
     dataframe_info = "Linkedin job search results by keyword:\n"
     print(dataframe_info, search_results_by_keyword_dataframe.head())
     return search_results_by_keyword_dataframe, dataframe_info
-
-
-QUESTION = "What would you like to do? Only enter the numeric value"
-OPTIONS = {
-    "1: draw a line": draw_a_line,
-    "2: draw two points": draw_two_points,
-    "3: draw a line with more points": draw_a_line_with_more_points,
-    "4: draw 2 plots with title and super title": draw_2_plots_with_title_and_super_title,
-    "5: draw 6 plots": draw_6_plots,
-    "6: load the csv data": read_csv,
-    "7: draw a scatterplot": create_scatter_plot,
-    "8: draw a barchart using the LinkedIn search_data": create_barchart_with_linkedin_data,
-    "9: exit the program": sys.exit
-}
-
-
-def main():
-    while True:
-        print(QUESTION)
-        for option in OPTIONS.keys():
-            # print(f"{option}.__qualname__")
-            print(f"{option}")
-        user_choice_index = input()
-        for choice in OPTIONS:
-            if user_choice_index + ":" in choice:
-                match = choice
-                break
-
-        function = OPTIONS[match]
-        function()  # execute the code for the user's choice
-        # ask again
-
-
-if __name__ == "__main__":
-    main()
