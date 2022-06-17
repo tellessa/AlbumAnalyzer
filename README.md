@@ -20,7 +20,7 @@ as well as online resources such as:
 - Tim Buchalka's Udemy course, Python Programming Masterclass: https://www.udemy.com/course/python-the-complete-python-developer-course/
 - FreeCodeCamp's curriculum especially for HTML, CSS, & JavaScript
 - W3school's SQL information
-- Amazon Web Services
+- Codecademy's Data Scientist:Machine Learning Specialist curriculum: https://www.codecademy.com/learn/paths/data-science
 
 The app currently starts with humble origins featuring a command line interface to display different graphs to the user.
 My goal is that over time, commit by commit, it will scale to a more dynamic project.
@@ -56,12 +56,3 @@ were:
 8. Javascript	165849
 9. UX	158000
 10. Linux	157000
-
-
-
-
-
-
-
-
-
