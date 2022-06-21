@@ -1,5 +1,5 @@
 import sys
-import plt_graphs_and_charts
+import source.plt_graphs_and_charts as plt_graphs_and_charts
 
 
 QUESTION = "What would you like to do? Only enter the numeric value"
