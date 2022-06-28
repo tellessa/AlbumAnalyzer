@@ -1,9 +1,11 @@
 import sys
 import source.plt_graphs_and_charts as plt_graphs_and_charts
+import spotipy_util
 
 
 QUESTION = "What would you like to do? Only enter the numeric value"
 OPTIONS = {
+    "0: exit the program": sys.exit,
     "1: draw a line": plt_graphs_and_charts.draw_a_line,
     "2: draw two points": plt_graphs_and_charts.draw_two_points,
     "3: draw a line with more points": plt_graphs_and_charts.draw_a_line_with_more_points,
@@ -12,7 +14,7 @@ OPTIONS = {
     "6: load the csv data": plt_graphs_and_charts.read_csv,
     "7: draw a scatterplot": plt_graphs_and_charts.create_scatter_plot,
     "8: draw a barchart using the LinkedIn search_data": plt_graphs_and_charts.create_barchart_with_linkedin_data,
-    "9: exit the program": sys.exit
+    "9: Get the user playlists for my spotify account:": spotipy_util.get_all_user_playlists,
 }
 
 
