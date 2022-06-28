@@ -1,4 +1,4 @@
-import spotipy_util
+import apis.spotipy_util as spotipy_util
 
 
 def get_object_methods(object_):

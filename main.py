@@ -1,6 +1,6 @@
 import sys
 import source.plt_graphs_and_charts as plt_graphs_and_charts
-import spotipy_util
+import apis.spotipy_util as spotipy_util
 
 
 QUESTION = "What would you like to do? Only enter the numeric value"
