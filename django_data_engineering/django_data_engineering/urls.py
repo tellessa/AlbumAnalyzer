@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+import music_library.views
+import exploring_algorithms.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', music_library.views.index),
+    path('music-library-search', music_library.views.search),
+    path('exploring-algorithms', exploring_algorithms.views.index),
+    path('exploring-algorithms-search', exploring_algorithms.views.search)
 ]
