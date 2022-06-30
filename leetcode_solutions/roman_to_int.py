@@ -6,8 +6,6 @@ import unittest
 #     C can be placed before D (500) and M (1000) to make 400 and 900.
 #     Given a roman numeral, convert it to an integer.
 
-roman_3999 = "MMMCMXCIX"  # first guess right!
-
 # constraints
 # --> come back to these constraints to narrow the general answer
 # 1 <= s.length <= 15
@@ -39,15 +37,6 @@ roman_3999 = "MMMCMXCIX"  # first guess right!
 # Output: 1994
 # Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 
-cases_where_subtraction_used = {
-    "IV": 4,
-    "IX": 9,
-    "XL": 40,
-    "XC": 90,
-    "CD": 400,
-    "CM": 900
-}
-
 
 class Solution:
     def romanToInt(self, s: str) -> int:
@@ -63,26 +52,27 @@ class Solution:
             "M": 1000
         }
         # convert to list since strings are immutable
-        list_of_letters = [char for char in s]
+        list_of_letters = [letter for letter in s]
         arabic_number = 0
         while len(list_of_letters):
-            if len(list_of_letters) == 1:
-                letter = list_of_letters.pop()
-                arabic_number += symbols_to_values[letter]
-            else:
-                # Get the character before the character at the
-                letter = list_of_letters.pop()
+            letter = list_of_letters.pop()
+            if len(list_of_letters):
+                # Get the letter before the letter
                 letter_before = list_of_letters[-1]
+                # If the letter needs to be subtracted
                 if symbols_to_values[letter] > symbols_to_values[letter_before]:
-                    # Pop an additional letter if it needs to be subtracted from its partner
-                    # rather than summed with total
+                    # Pop the letter before so we don't sum it
                     letter_before = list_of_letters.pop()
-                    unit = letter_before + letter
-                    value = cases_where_subtraction_used[unit]
+                    value = symbols_to_values[letter] - symbols_to_values[letter_before]
                     arabic_number += value
                 else:
-                    letter_value = symbols_to_values[letter]
-                    arabic_number += letter_value
+                    value = symbols_to_values[letter]
+                    arabic_number += value
+                continue
+            #  base case if we want to use recursion
+            value = symbols_to_values[letter]
+            arabic_number += value
+            # return arabic_number
 
         return arabic_number
 
