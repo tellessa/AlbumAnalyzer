@@ -39,12 +39,29 @@ def get_audio_features(sp, TRACK_URI):
     return features_json_string
 
 
-def get_fire_on_the_cathedral_features(sp, get_audio_features_timed):
+def get_fire_on_the_cathedral_features(sp, TRACK_URI):
     # Fire on the Cathedral
     TRACK_URI = "spotify:track:6Rskc4RUqPgmcxkQic0a5G"
     features = get_audio_features_timed(sp, TRACK_URI)[0]
     print(features)
 
 
+def get_whole_album_features(sp, ALBUM_URI):
+    # Get a list of URI's for the album
+    # run the similar logic to single track on each one
+    album_tracks = sp.album_tracks(ALBUM_URI)
+    items = album_tracks["items"]
+    features_by_track = []
+    for item in items:
+        # spotify:track:2md2i5QvelRFnafpnd6LOg
+        uri = item["uri"]
+        features = get_audio_features_timed(sp, uri)[0]
+        features_by_track.append(features)
+        print(features)
+    print(features_by_track)
+
+
 if __name__ == "__main__":
-    get_fire_on_the_cathedral_features(sp, get_audio_features_timed)
+    # get_fire_on_the_cathedral_features(sp, )
+    THE_BEAUTIFUL_LETDOWN_DELUXE = "spotify:album:2mIYia4lSO1NCSFGGGGNR9"
+    beautiful_letdown_features = get_whole_album_features(sp, THE_BEAUTIFUL_LETDOWN_DELUXE)
