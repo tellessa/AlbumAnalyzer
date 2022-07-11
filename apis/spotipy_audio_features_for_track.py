@@ -46,4 +46,5 @@ def get_fire_on_the_cathedral_features(sp, get_audio_features_timed):
     print(features)
 
 
-get_fire_on_the_cathedral_features(sp, get_audio_features_timed)
+if __name__ == "__main__":
+    get_fire_on_the_cathedral_features(sp, get_audio_features_timed)
