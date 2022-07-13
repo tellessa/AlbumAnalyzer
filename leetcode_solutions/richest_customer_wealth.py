@@ -6,9 +6,7 @@ class Solution:
     def maximumWealth(self, accounts: List[List[int]]) -> int:
         wealths = []
         for array in accounts:
-            wealth = 0
-            for number in array:
-                wealth += number
+            wealth = sum(array)
             wealths.append(wealth)
 
         return max(wealths)
