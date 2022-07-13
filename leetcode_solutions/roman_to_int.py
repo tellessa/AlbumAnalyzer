@@ -40,7 +40,6 @@ import unittest
 
 class Solution:
     def romanToInt(self, s: str) -> int:
-
         # Set up the basic mapping
         symbols_to_values = {
             "I": 1,
