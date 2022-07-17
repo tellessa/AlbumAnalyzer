@@ -58,10 +58,19 @@ def get_whole_album_features(sp, ALBUM_URI):
         features = get_audio_features_timed(sp, uri)[0]
         features_by_track.append(features)
         print(features)
-    print(features_by_track)
+    return features_by_track
+
+
+def write_to_file(features):
+    counter = 1  # tracks start at 1 not 0
+    for entry in features:
+        with open(f"switchfoot_results/track {counter}.json", "w") as outfile:
+            outfile.write(entry)
+        counter += 1
 
 
 if __name__ == "__main__":
     # get_fire_on_the_cathedral_features(sp, )
     THE_BEAUTIFUL_LETDOWN_DELUXE = "spotify:album:2mIYia4lSO1NCSFGGGGNR9"
     beautiful_letdown_features = get_whole_album_features(sp, THE_BEAUTIFUL_LETDOWN_DELUXE)
+    write_to_file(beautiful_letdown_features)
