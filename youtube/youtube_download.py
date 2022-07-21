@@ -4,7 +4,7 @@ from pytube import YouTube
 link = "https://www.youtube.com/watch?v=4l3bTDlT6ZI&list=PLQyna87O3r-U_JyJGkiM6rKIfO1VLKmlp&index=11"
 
 yt = YouTube(link)
-OUTPUT_PATH = "~\\Desktop\\desktopBin\\Programming resources\\data_engineering"
+OUTPUT_PATH = "youtube_downloads"
 FILENAME = "Object Oriented JavaScript Tutorial #1 - Introduction.mp4"
 
 try:
