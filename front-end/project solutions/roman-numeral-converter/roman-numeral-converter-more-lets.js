@@ -7,29 +7,29 @@ function convertToRoman(num) {
         romanString = onesPlaceSubstring;
         return romanString;
     } else if (length === 2) {
-        let tensPlaceArabic = numAsString[0];
+        let tensPlaceArabic = numAsString[numAsString.length -2];
         let tensPlaceSubstring = convertDigit(tensPlaceArabic, "tens")
-        let onesPlaceArabic = numAsString[1];
+        let onesPlaceArabic = numAsString[numAsString.length -1];
         let onesPlaceSubstring = convertDigit(onesPlaceArabic, "ones");
         romanString = tensPlaceSubstring + onesPlaceSubstring;
         return romanString;
     } else if (length === 3) {
-        let hundredsPlaceArabic = numAsString[0];
+        let hundredsPlaceArabic = numAsString[numAsString.length -3];
         let hundredsPlaceSubstring = convertDigit(hundredsPlaceArabic, "hundreds")
-        let tensPlaceArabic = numAsString[1];
+        let tensPlaceArabic = numAsString[numAsString.length -2];
         let tensPlaceSubstring = convertDigit(tensPlaceArabic, "tens")
-        let onesPlaceArabic = numAsString[2];
+        let onesPlaceArabic = numAsString[numAsString.length -1];
         let onesPlaceSubstring = convertDigit(onesPlaceArabic, "ones");
         romanString = hundredsPlaceSubstring + tensPlaceSubstring + onesPlaceSubstring;
         return romanString;
     } else if (length === 4) {
-        let thousandsPlaceArabic = numAsString[0];
+        let thousandsPlaceArabic = numAsString[numAsString.length -4];
         let thousandsPlaceSubstring = convertDigit(thousandsPlaceArabic, "thousands")
-        let hundredsPlaceArabic = numAsString[1];
+        let hundredsPlaceArabic = numAsString[numAsString.length -3];
         let hundredsPlaceSubstring = convertDigit(hundredsPlaceArabic, "hundreds")
-        let tensPlaceArabic = numAsString[2];
+        let tensPlaceArabic = numAsString[numAsString.length -2];
         let tensPlaceSubstring = convertDigit(tensPlaceArabic, "tens")
-        let onesPlaceArabic = numAsString[3];
+        let onesPlaceArabic = numAsString[numAsString.length -1];
         let onesPlaceSubstring = convertDigit(onesPlaceArabic, "ones");
         romanString = thousandsPlaceSubstring + hundredsPlaceSubstring + tensPlaceSubstring + onesPlaceSubstring;
         return romanString;
