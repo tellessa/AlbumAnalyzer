@@ -4,18 +4,18 @@ function convertToRoman(num) {
     let length = numAsString.length;
     console.log(`length: ${length}`);
     let romanString;
-    if (length === 1) {
+    if (length >= 1) {
         let onesPlaceSubstring = convertDigit(numAsString, "ones");
         romanString = onesPlaceSubstring;
-        return romanString;
-    } else if (length === 2) {
+    }
+    if (length >= 2) {
         tensPlaceArabic = numAsString[0];
         let tensPlaceSubstring = convertDigit(tensPlaceArabic, "tens")
         onesPlaceArabic = numAsString[1];
         let onesPlaceSubstring = convertDigit(onesPlaceArabic, "ones");
-        romanString = tensPlaceSubstring + onesPlaceSubstring;
-        return romanString;
-    } else if (length === 3) {
+        romanString = tensPlaceSubstring + romanString;
+    }
+    if (length >= 3) {
         hundredsPlaceArabic = numAsString[0];
         let hundredsPlaceSubstring = convertDigit(hundredsPlaceArabic, "hundreds")
         tensPlaceArabic = numAsString[1];
@@ -23,8 +23,8 @@ function convertToRoman(num) {
         onesPlaceArabic = numAsString[2];
         let onesPlaceSubstring = convertDigit(onesPlaceArabic, "ones");
         romanString = hundredsPlaceSubstring + tensPlaceSubstring + onesPlaceSubstring;
-        return romanString;
-    } else if (length === 4) {
+    }
+    if (length >= 4) {
         thousandsPlaceArabic = numAsString[0];
         let thousandsPlaceSubstring = convertDigit(thousandsPlaceArabic, "thousands")
         hundredsPlaceArabic = numAsString[1];
@@ -34,8 +34,8 @@ function convertToRoman(num) {
         onesPlaceArabic = numAsString[3];
         let onesPlaceSubstring = convertDigit(onesPlaceArabic, "ones");
         romanString = thousandsPlaceSubstring + hundredsPlaceSubstring + tensPlaceSubstring + onesPlaceSubstring;
-        return romanString;
-     }
+    }
+    return romanString;
 }
 
 function convertDigit(numAsString, place) {
