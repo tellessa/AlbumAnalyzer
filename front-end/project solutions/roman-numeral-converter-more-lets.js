@@ -1,9 +1,13 @@
 
-/* If arabic is in range(0,3 or 6,8 (inclusive), the substring's end character will be
-that order of magnitude's floor-numeral
-If arabic is in range (4, 5) it will end in the the mid-range numeral (V, L, or D)
-If arabic is in range (5, 8) inclusive, it needs the mid-range numeral at the start of the substring
-If arabic is 9, it needs the floor-numeral followed by the ceiling numeral */
+/*
+For all but the thousand place digit, there are three separate numerals- a floor, mid-range, and ceiling numeral.
+the following rules apply:
+If arabic is in range(0,3) or (5,8) (inclusive), add the floor-numeral * (times) arabic to the end of the substring
+    nested If arabic is in range (5, 8) inclusive, add the mid-range numeral at the start of the substring
+else If arabic is 4 it needs the floor numeral followed by the mid-range numeral
+(V, L, or D)
+else If arabic is 9, it needs the floor-numeral followed by the ceiling numeral
+*/
 
 function convertToRoman(num) {
     let numAsString = num.toString();
