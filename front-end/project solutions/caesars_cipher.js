@@ -1,18 +1,15 @@
 const findAlphabetIndex = (char) => {
   const base = 'a'.charCodeAt(0);
-  
+
   return char.toLowerCase().charCodeAt(0) - base;
 };
 
 function rot13(str) {
   // turn the string into a list
-  // Make a new empty list
   let asArr = [...str];
+  // Make a new empty list
   let decodedArr = [];
   // Make an object (aka dict) mapping a letter to the one 13 places later
-  // If necessary, make an object mapping indexes to letters
-  // distinguish between letters and non-alphabetic characters
-  // turn the list back into a string and replace commas with ""
   const LETTER_TO_INDEX = {
     "A": 0,
     "B": 1,
@@ -41,6 +38,7 @@ function rot13(str) {
     "Y": 24,
     "Z": 25
   }
+  // If necessary, make an object mapping indexes to letters
   const INDEX_TO_LETTER= {
     0: "A",
     1: "B",
@@ -68,6 +66,7 @@ function rot13(str) {
       let input_letter_index_str = input_letter_index.toString();
       console.log(`input_letter_index: ${input_letter_index}`);
       let translated_index;
+      // distinguish between letters and non-alphabetic characters
       if (input_letter_index < 13) {
         translated_index = (input_letter_index + 13).toString();
       } else {
@@ -82,6 +81,7 @@ function rot13(str) {
     };
     decodedArr.push(input_letter);
   }
+  // turn the list back into a string and replace commas with the empty string
   let decodedStr = decodedArr.toString().replaceAll(",", "");
   console.log(decodedStr)
   return decodedStr;
