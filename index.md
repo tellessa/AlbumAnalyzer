@@ -1,5 +1,7 @@
 ## Data Engineering
 
+![Portrait](/docs/assets/portrait_cropped.png)
+
 Welcome to my data engineering project! 
 My goal with this project is to apply and demonstrate my skills in Python.
 I am specifically working with pandas and matplotlib.
