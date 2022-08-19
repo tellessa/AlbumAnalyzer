@@ -1,19 +1,25 @@
 function whatIsInAName(collection, source) {
   const arr = [];
+  let outer_match;
+  let sourceKeys;
+  let keyToCheck;
+  let valueToCheck
+  let actualValue;
+  let match;
   // Only change code below this line
   for (let i = 0; i < collection.length; i++) {
-    let outer_match = true;
+    outer_match = true;
     console.log(collection[i]);
-    let sourceKeys = Object.keys(source);
+    sourceKeys = Object.keys(source);
     console.log(sourceKeys);
     for (let j = 0; j < sourceKeys.length; j++) {
-      let keyToCheck = sourceKeys[j];
-      let valueToCheck = source[keyToCheck];
+      keyToCheck = sourceKeys[j];
+      valueToCheck = source[keyToCheck];
       console.log(`key and valueToCheck:  ${keyToCheck}: ${valueToCheck}`);
 
-      let actualValue = collection[i][keyToCheck];
+      actualValue = collection[i][keyToCheck];
       console.log(`comparing ${valueToCheck} to ${actualValue}`)
-      let match = valueToCheck === actualValue;
+      match = valueToCheck === actualValue;
       if (match) {
         console.log("match!")
         console.log(collection[i])
