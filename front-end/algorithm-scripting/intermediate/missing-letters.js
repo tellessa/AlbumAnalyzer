@@ -19,12 +19,9 @@ function fearNotLetter(str) {
       console.log(`${goldenRange[i]} is not in strAsList`);
       return letter;
     }
+    }
+    return undefined;
   }
-  return undefined;
-  // iterate through golden range and if str.indexOf(golden_range[i]) === -1
-  //    return golden_range[i]
-  return str;
-}
 
 function range(start, stop, step) {
     var result = [start];
@@ -45,4 +42,5 @@ function alphaRange(start, stop, step){
     return result;
 }
 
-fearNotLetter("abce");
+let result = fearNotLetter("abce");
+console.log(result)
