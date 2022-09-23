@@ -3,38 +3,48 @@
 // cid and status should be tracked on their own and added back to the object at the end of the function right before returning.
 
 const DENOMINATION_VALUES = {
+"ONE HUNDRED": 100,
+"TWENTY": 20,
+"TEN": 10,
+"FIVE":	5,
+"ONE": 1,
+"QUARTER": 0.25,
 "PENNY": 0.01,
 "NICKEL": 0.05,
-"DIME":	0.1,
-"QUARTER": 0.25,
-"ONE": 1,
-"FIVE":	5,
-"TEN": 10,
-"TWENTY": 20,
-"ONE HUNDRED": 100
+"DIME":	0.1
 }
 
 function checkCashRegister(price, cash, cid) {
     let changeDue = cash - price;
     let statusAndChange = {};
+    
+    let changeActual = getChangeActual(changeDue, cid);
 
-    let cidValue = getValue(cid)
+    if (changeActual === None) {
+        console.log()
+    }
+
+
+
+    // let cidValue = getValue(cid)
 
     // 50 cents can be
     // one quarter, 5 nickels
     // quarter, 4 nickels, 5 pennies
     // algorithm outline: 
     // 1. always prefer a higher denomination
+    // set up a mapping to show the unitValue of each denomination- done
     // Disregard denominations that are in themselves greater than the required change
-    // set up a mapping to show the unitValue of each denomination
+    // 
 
-    if (cidValue < changeDue) {
-        statusAndChange.status = "INSUFFICIENT_FUNDS";
-    } else if (cidValue === changeDue) {
-        statusAndChange.status = "CLOSED";
-    } else {
-        statusAndChange.status = "OPEN";
-    }
+    // if (cidValue < changeDue) {
+    //     statusAndChange.status = "INSUFFICIENT_FUNDS";
+    // } else if (cidValue === changeDue) {
+    //     statusAndChange.status = "CLOSED";
+    // } else {
+    //     statusAndChange.status = "OPEN";
+    // }
+
     // Get the total value of cash in drawer
     // compare the change due to the total value of cash in drawer
     // check for 3 possible cases:
@@ -48,6 +58,20 @@ function checkCashRegister(price, cash, cid) {
 
     return statusAndChange;
     }
+
+getChangeActual = (changeDue, cid) => {
+
+    let changeActualValue = 0;
+    let changeActualArray = [];
+    for (const key in DENOMINATION_VALUES) {
+        let denom_value = DENOMINATION_VALUES[key]
+        if (denom_value < changeDue) {
+            changeActualValue += denom_value
+            changeActualArray.push([key, denom_value])
+        }
+    }
+    return changeActualValue
+}
 
 getValue = (cid) => {
     let totalValue = 0;
