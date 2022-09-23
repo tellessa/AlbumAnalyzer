@@ -66,11 +66,17 @@ getChangeActual = (changeDue, cid) => {
     for (const key in DENOMINATION_VALUES) {
         let denom_value = DENOMINATION_VALUES[key]
         if (denom_value < changeDue) {
-            changeActualValue += denom_value
-            changeActualArray.push([key, denom_value])
+            let denomArray = [key, 0]
+            while (changeActualValue + denom_value <= changeDue) {
+                changeActualValue += denom_value
+                denomArray[1] += denom_value
+            }
+            if (denomArray[1] > 0) {
+            changeActualArray.push(denomArray)
+            }
         }
     }
-    return changeActualValue
+    return changeActualArray
 }
 
 getValue = (cid) => {
