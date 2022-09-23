@@ -1,4 +1,4 @@
-{
+[{
     "status": "OPEN",
     "change": [
         [
@@ -34,4 +34,4 @@
 {
     "status": "INSUFFICIENT_FUNDS",
     "change": []
-}
+}]
