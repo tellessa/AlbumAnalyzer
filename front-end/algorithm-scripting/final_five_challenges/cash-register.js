@@ -5,7 +5,18 @@
 function checkCashRegister(price, cash, cid) {
     let changeDue = getChangeDue(price, cash);
 
+    let cidValue = getValue(cid)
+
+    // Get the total value of cash in drawer
     // compare the change due to the total value of cash in drawer
+    // check for 3 possible cases:
+    // a. cidValue == changeDue
+    // CLOSED
+    // b. cidValue < changeDue
+    // INSUFFICIENT_FUNDS
+    // c. cidValue > changeDue
+    // OPEN
+    
 
     return changeDue;
     }
@@ -14,6 +25,24 @@ function checkCashRegister(price, cash, cid) {
 getChangeDue = (price, cash) => {
     return cash - price
 }
+
+getValue = (cid) => {
+    let totalValue = 0;
+    for (let i = 0; i < cid.length; i++) {
+        let denomination = cid[i];
+        let denominationValue = denomination[1]
+        totalValue += denominationValue
+    }
+    
+    // let rounded = Math.round(totalValue)
+    let rounded = roundOff(totalValue, 2)
+    return rounded
+}
+
+let roundOff = (num, places) => {
+    const x = Math.pow(10,places);
+    return Math.round(num * x) / x;
+  }
 
 // tests
 
