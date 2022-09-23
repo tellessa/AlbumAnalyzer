@@ -18,11 +18,21 @@ function checkCashRegister(price, cash, cid) {
     let changeDue = cash - price;
     let statusAndChange = {};
     
-    let changeActual = getChangeActual(changeDue, cid);
 
-    if (changeActual === None) {
-        console.log()
+    let [changeActualValue, changeActualArray] = getChangeActual(changeDue, cid);
+
+    if (changeActual[1] === []) {
+        console.log("INSUFFICIENT_FUNDS")
     }
+
+    let cidValue = getValue(cid);
+    // if (cidValue < changeDue) {
+    //     statusAndChange.status = "INSUFFICIENT_FUNDS";
+    // } else if (cidValue === changeDue) {
+    //     statusAndChange.status = "CLOSED";
+    // } else {
+    //     statusAndChange.status = "OPEN";
+    // }
 
 
 
@@ -36,14 +46,6 @@ function checkCashRegister(price, cash, cid) {
     // set up a mapping to show the unitValue of each denomination- done
     // Disregard denominations that are in themselves greater than the required change
     // 
-
-    // if (cidValue < changeDue) {
-    //     statusAndChange.status = "INSUFFICIENT_FUNDS";
-    // } else if (cidValue === changeDue) {
-    //     statusAndChange.status = "CLOSED";
-    // } else {
-    //     statusAndChange.status = "OPEN";
-    // }
 
     // Get the total value of cash in drawer
     // compare the change due to the total value of cash in drawer
@@ -61,22 +63,43 @@ function checkCashRegister(price, cash, cid) {
 
 getChangeActual = (changeDue, cid) => {
 
+    // TODO: modify this function so that we actually decrement from cid as we try to find the ideal change
     let changeActualValue = 0;
     let changeActualArray = [];
+    let cidDenomArray;
+
     for (const key in DENOMINATION_VALUES) {
-        let denom_value = DENOMINATION_VALUES[key]
-        if (denom_value < changeDue) {
-            let denomArray = [key, 0]
-            while (changeActualValue + denom_value <= changeDue) {
-                changeActualValue += denom_value
-                denomArray[1] += denom_value
+        let is_key_present_in_cid = false;
+        for (let i = 0; i < cid.length; i++) {
+            if (cid[i][0] === key) {
+                is_key_present_in_cid = true
+                cidDenomArray = cid[i];
             }
-            if (denomArray[1] > 0) {
-            changeActualArray.push(denomArray)
+        }
+
+
+        let denom_value = DENOMINATION_VALUES[key]
+        if ((denom_value < changeDue) && is_key_present_in_cid) {
+            let changeDenomArray = [key, 0]
+            let cidDenomValue = cidDenomArray[1];
+            // currentChangeActualValue = 
+
+            while (changeActualValue + denom_value <= changeDue && cidDenomValue > 0) {
+                changeActualValue += denom_value;
+                changeDenomArray[1] += denom_value;
+                cidDenomValue -= denom_value;
+            }
+            if (changeDenomArray[1] > 0) {
+            changeActualArray.push(changeDenomArray)
             }
         }
     }
-    return changeActualArray
+    if (changeActualValue === changeDue) {
+        return [changeActualValue, changeActualArray];
+    } else if (changeActualValue < changeDue){
+        return [changeActualValue, changeActualArray];
+    }
+
 }
 
 getValue = (cid) => {
