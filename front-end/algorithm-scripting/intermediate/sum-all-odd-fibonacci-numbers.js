@@ -2,8 +2,6 @@ function sumFibs(num) {
     if (num === 1) {
       return 1
     }
-    let sequenceSoFar;
-    let previous;
     let fibsLtNum;
     fibsLtNum = getFibs([1, 1], num);
     let oddsOnly = fibsLtNum.filter(num => num % 2 !== 0);
