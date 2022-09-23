@@ -1,0 +1,37 @@
+{
+    "status": "OPEN",
+    "change": [
+        [
+            "TWENTY",
+            60
+        ],
+        [
+            "TEN",
+            20
+        ],
+        [
+            "FIVE",
+            15
+        ],
+        [
+            "ONE",
+            1
+        ],
+        [
+            "QUARTER",
+            0.5
+        ],
+        [
+            "DIME",
+            0.2
+        ],
+        [
+            "PENNY",
+            0.04
+        ]
+    ]
+},
+{
+    "status": "INSUFFICIENT_FUNDS",
+    "change": []
+}
