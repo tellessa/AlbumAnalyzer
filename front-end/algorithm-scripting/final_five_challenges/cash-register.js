@@ -3,10 +3,17 @@
 // cid and status should be tracked on their own and added back to the object at the end of the function right before returning.
 
 function checkCashRegister(price, cash, cid) {
-    let change;
-    return change;
+    let changeDue = getChangeDue(price, cash);
+
+    // compare the change due to the total value of cash in drawer
+
+    return changeDue;
     }
 
+
+getChangeDue = (price, cash) => {
+    return cash - price
+}
 
 // tests
 
