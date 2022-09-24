@@ -5,7 +5,7 @@ link = "https://www.youtube.com/watch?v=4l3bTDlT6ZI&list=PLQyna87O3r-U_JyJGkiM6r
 
 yt = YouTube(link)
 OUTPUT_PATH = "youtube_downloads"
-FILENAME = "Object Oriented JavaScript Tutorial #1 - Introduction.mp4"
+FILENAME = "Object Oriented JavaScript Tutorial #1 - Introduction" + ".mp4"
 
 try:
     yt.streams.filter(progressive=True,
