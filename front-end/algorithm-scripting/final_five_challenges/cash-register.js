@@ -20,19 +20,20 @@ function checkCashRegister(price, cash, cid) {
     sorted_cid.sort(sort_by_denom)
     let [changeActualValue, changeActualArray] = getChangeActual(changeDue, sorted_cid);
 
-    if (changeActual[1] === []) {
-        console.log("INSUFFICIENT_FUNDS")
+    if (changeActualArray === []) {
+        statusAndChange.status = "INSUFFICIENT_FUNDS";
+    } else if (changeActualArray === sorted_cid) {
+        statusAndChange.status = "CLOSED";
+    } else {
+        statusAndChange.status = "OPEN";
+    }
+    if (statusAndChange.status === "CLOSED") {
+        // Don't sort cid if we are just giving all of it to the customer.
+        statusAndChange.change = cid;
+    } else {
+        statusAndChange.change = changeActualArray;
     }
 
-    let cidValue = getValue(cid);
-    // if (cidValue < changeDue) {
-    //     statusAndChange.status = "INSUFFICIENT_FUNDS";
-    // } else if (cidValue === changeDue) {
-    //     statusAndChange.status = "CLOSED";
-    // } else {
-    //     statusAndChange.status = "OPEN";
-    // }
-    // let cidValue = getValue(cid)
     return statusAndChange;
     }
 
@@ -60,7 +61,7 @@ getChangeActual = (changeDue, sorted_cid) => {
     let changeActualValue = 0;
     let remainingAmtOwed = changeDue - changeActualValue;
     let changeActualArray = [];
-    let cidDenomArray;
+    // let cidDenomArray;
 
     for (let i = 0; i < sorted_cid.length; i++) {
         let arrayToCheck = sorted_cid[i];
@@ -69,32 +70,28 @@ getChangeActual = (changeDue, sorted_cid) => {
         // Move onto the next denomination if this one can't help us
         if (denomValue <= remainingAmtOwed) {
             let amtThisDenomAvailable = arrayToCheck[1];
-            let unitsThisDenomToGiveAsChange = remainingAmtOwed / denomValue;
-            let unitsThisDenomToGiveAsChangeFloored = Math.floor(unitsThisDenomToGiveAsChange);
-            let valueThisDenomToGiveAsChange = unitsThisDenomToGiveAsChangeFloored * denomValue
-
-        } else if (denomValue > remainingAmtOwed) continue;
-
+            // This won't do. Only owe 15, and we're on $20 bill, we get 0.75. Floor is 0.
+            let unitsThisDenomToGiveAsChangeFloored = Math.floor(remainingAmtOwed / denomValue);
+            if (unitsThisDenomToGiveAsChangeFloored <= 0) continue;
+            if (unitsThisDenomToGiveAsChangeFloored > 0) {
+                let valueThisDenomToGiveAsChange = unitsThisDenomToGiveAsChangeFloored * denomValue
+                sorted_cid[i][1] -= valueThisDenomToGiveAsChange;
+                changeActualValue += valueThisDenomToGiveAsChange;
+                let changeThisDenom = [name, valueThisDenomToGiveAsChange]
+                changeActualArray.push(changeThisDenom);
+                remainingAmtOwed -= valueThisDenomToGiveAsChange;
+                if (remainingAmtOwed === 0) {
+                    // console.log("breaking...")
+                    return [changeActualValue, changeActualArray];
+                }
+        }
+        }
+        // else if (denomValue > remainingAmtOwed) continue;
+        // Now check if the total has been reached.
+        // if ()
     }
+    // return changeActualArray
 }
-
-getValue = (cid) => {
-    let totalValue = 0;
-    for (let i = 0; i < cid.length; i++) {
-        let denomination = cid[i];
-        let denominationValue = denomination[1]
-        totalValue += denominationValue
-    }
-
-    // let rounded = Math.round(totalValue)
-    let rounded = roundOff(totalValue, 2)
-    return rounded
-}
-
-let roundOff = (num, places) => {
-    const x = Math.pow(10,places);
-    return Math.round(num * x) / x;
-  }
 
 // tests
 
