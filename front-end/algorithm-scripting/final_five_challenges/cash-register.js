@@ -1,4 +1,3 @@
-// starter code:
 // breakdown:
 // cid and status should be tracked on their own and added back to the object at the end of the function right before returning.
 
@@ -17,9 +16,9 @@ const DENOMINATION_VALUES = {
 function checkCashRegister(price, cash, cid) {
     let changeDue = cash - price;
     let statusAndChange = {};
-
-
-    let [changeActualValue, changeActualArray] = getChangeActual(changeDue, cid);
+    let sorted_cid = [...cid]
+    sorted_cid.sort(sort_by_denom)
+    let [changeActualValue, changeActualArray] = getChangeActual(changeDue, sorted_cid);
 
     if (changeActual[1] === []) {
         console.log("INSUFFICIENT_FUNDS")
@@ -33,35 +32,25 @@ function checkCashRegister(price, cash, cid) {
     // } else {
     //     statusAndChange.status = "OPEN";
     // }
-
-
-
     // let cidValue = getValue(cid)
-
-    // 50 cents can be
-    // one quarter, 5 nickels
-    // quarter, 4 nickels, 5 pennies
-    // algorithm outline:
-    // 1. always prefer a higher denomination
-    // set up a mapping to show the unitValue of each denomination- done
-    // Disregard denominations that are in themselves greater than the required change
-    //
-
-    // Get the total value of cash in drawer
-    // compare the change due to the total value of cash in drawer
-    // check for 3 possible cases:
-    // a. cidValue == changeDue
-    // CLOSED
-    // b. cidValue < changeDue
-    // INSUFFICIENT_FUNDS
-    // c. cidValue > changeDue
-    // OPEN
-
-
     return statusAndChange;
     }
 
-getChangeActual = (changeDue, cid) => {
+function sort_by_denom(x, y) {
+    x_denom = x[0];
+    y_denom = y[0];
+    x_unit_value = DENOMINATION_VALUES[x_denom];
+    y_unit_value = DENOMINATION_VALUES[y_denom];
+    if (x_unit_value > y_unit_value) {
+        return -1;
+    }
+    if (x_unit_value < y_unit_value) {
+        return 1;
+    }
+    return 0;
+}
+
+getChangeActual = (changeDue, sorted_cid) => {
 
     // TODO: modify this function so that we actually decrement from cid as we try to find the ideal change
     // three outcomes:
@@ -69,41 +58,24 @@ getChangeActual = (changeDue, cid) => {
     // 2. just return cid if it matches the amount of change due
     // 3. The change, sorted in high to low order
     let changeActualValue = 0;
+    let remainingAmtOwed = changeDue - changeActualValue;
     let changeActualArray = [];
     let cidDenomArray;
 
-    for (const key in DENOMINATION_VALUES) {
-        let is_key_present_in_cid = false;
-        for (let i = 0; i < cid.length; i++) {
-            if (cid[i][0] === key) {
-                is_key_present_in_cid = true
-                cidDenomArray = cid[i];
-            }
-        }
+    for (let i = 0; i < sorted_cid.length; i++) {
+        let arrayToCheck = sorted_cid[i];
+        let name = arrayToCheck[0];
+        let denomValue = DENOMINATION_VALUES[name];
+        // Move onto the next denomination if this one can't help us
+        if (denomValue <= remainingAmtOwed) {
+            let amtThisDenomAvailable = arrayToCheck[1];
+            let unitsThisDenomToGiveAsChange = remainingAmtOwed / denomValue;
+            let unitsThisDenomToGiveAsChangeFloored = Math.floor(unitsThisDenomToGiveAsChange);
+            let valueThisDenomToGiveAsChange = unitsThisDenomToGiveAsChangeFloored * denomValue
 
+        } else if (denomValue > remainingAmtOwed) continue;
 
-        let denom_value = DENOMINATION_VALUES[key]
-        if ((denom_value < changeDue) && is_key_present_in_cid) {
-            let changeDenomArray = [key, 0]
-            let cidDenomValue = cidDenomArray[1];
-            // currentChangeActualValue =
-
-            while (changeActualValue + denom_value <= changeDue && cidDenomValue > 0) {
-                changeActualValue += denom_value;
-                changeDenomArray[1] += denom_value;
-                cidDenomValue -= denom_value;
-            }
-            if (changeDenomArray[1] > 0) {
-            changeActualArray.push(changeDenomArray)
-            }
-        }
     }
-    if (changeActualValue === changeDue) {
-        return [changeActualValue, changeActualArray];
-    } else if (changeActualValue < changeDue){
-        return [changeActualValue, changeActualArray];
-    }
-
 }
 
 getValue = (cid) => {

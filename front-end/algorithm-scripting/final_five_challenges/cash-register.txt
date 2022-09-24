@@ -34,3 +34,25 @@ See below for an example of a cash-in-drawer array:
   ["TWENTY", 60],
   ["ONE HUNDRED", 100]
 ]
+
+
+
+
+    // 50 cents can be
+    // one quarter, 5 nickels
+    // quarter, 4 nickels, 5 pennies
+    // algorithm outline:
+    // 1. always prefer a higher denomination
+    // set up a mapping to show the unitValue of each denomination- done
+    // Disregard denominations that are in themselves greater than the required change
+    //
+
+    // Get the total value of cash in drawer
+    // compare the change due to the total value of cash in drawer
+    // check for 3 possible cases:
+    // a. cidValue == changeDue
+    // CLOSED
+    // b. cidValue < changeDue
+    // INSUFFICIENT_FUNDS
+    // c. cidValue > changeDue
+    // OPEN
