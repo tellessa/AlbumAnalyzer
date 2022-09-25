@@ -52,7 +52,6 @@ function sort_by_denom(x, y) {
 }
 
 getChangeActual = (changeDue, sorted_cid) => {
-
     // TODO: modify this function so that we actually decrement from cid as we try to find the ideal change
     // three outcomes:
     // 1. an empty list
@@ -90,6 +89,7 @@ getChangeActual = (changeDue, sorted_cid) => {
         // Now check if the total has been reached.
         // if ()
     }
+    return [changeActualValue, changeActualArray];
     // return changeActualArray
 }
 
