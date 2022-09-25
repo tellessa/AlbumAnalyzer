@@ -99,8 +99,7 @@ getChangeActual = (changeDue, sorted_cid) => {
 // tests
 
 let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-console.log(`status: ${test0.status}`)
-logChange(test0);
+logStatusAndChange(test0);
 // should return
 
 // {status: "OPEN", change: [["QUARTER", 0.5]]}
@@ -108,37 +107,39 @@ logChange(test0);
 
 
 let test1 = checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-logChange(test1);
-
+logStatusAndChange(test1);
+// Off only on the penny array, returning .03 when should be 0.04
 // should return
 
 // {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}.
 
 
 let test2 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-logChange(test2);
-
+logStatusAndChange(test2);
+// returns open and a single penny
 // should return
 
 // {status: "INSUFFICIENT_FUNDS", change: []}
 
 
-// Quantity is enough, but denominations are incorrect.
-// We need to check for the exact change before we say the status is closed or open
-// checkIfRequiredChange can be given with available denominations
 let test3 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-logChange(test3);
-
+logStatusAndChange(test3);
+// returns open and a single penny
 // should return
 
 // {status: "INSUFFICIENT_FUNDS", change: []}
 
 
 let test4 = checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-logChange(test4);
+logStatusAndChange(test4);
+// returns correct change, but should be open
+// should return
+
+// {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}
 
 
-function logChange(test) {
+function logStatusAndChange(test) {
+    console.log(`status: ${test.status}`)
     change = test.change;
     console.log("change:");
     for (let i = 0; i < change.length; i++) {
@@ -146,6 +147,3 @@ function logChange(test) {
         console.log(`value: ${change[i][1]}`);
     }
 }
-// should return
-
-// {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}
