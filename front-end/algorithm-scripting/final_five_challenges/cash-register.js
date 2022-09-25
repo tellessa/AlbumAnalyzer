@@ -71,11 +71,12 @@ getChangeActual = (changeDue, sorted_cid) => {
             let amtThisDenomAvailable = arrayToCheck[1];
             // This won't do. Only owe 15, and we're on $20 bill, we get 0.75. Floor is 0.
             // How much we ideally would use of this currency
-            let maxNeededThisDenom = Math.floor(remainingAmtOwed / denomValue);
+            let maxNeededThisDenom = Math.floor(remainingAmtOwed / denomValue) * denomValue;
+            let cidThisDenom = arrayToCheck[1];
 
             if (maxNeededThisDenom <= 0) continue;
             if (maxNeededThisDenom > 0) {
-                let valueThisDenomToGiveAsChange = maxNeededThisDenom * denomValue
+                let valueThisDenomToGiveAsChange = Math.min([maxNeededThisDenom, cidThisDenom]); 
                 sorted_cid[i][1] -= valueThisDenomToGiveAsChange;
                 changeActualValue += valueThisDenomToGiveAsChange;
                 let changeThisDenom = [name, valueThisDenomToGiveAsChange]
