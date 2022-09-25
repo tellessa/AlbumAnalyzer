@@ -52,32 +52,26 @@ function sort_by_denom(x, y) {
 }
 
 getChangeActual = (changeDue, sorted_cid) => {
-    // TODO: modify this function so that we actually decrement from cid as we try to find the ideal change
-    // three outcomes:
-    // 1. an empty list
-    // 2. just return cid if it matches the amount of change due
-    // 3. The change, sorted in high to low order
+    modified_sorted_cid = [...sorted_cid];
     let changeActualValue = 0;
     let remainingAmtOwed = changeDue - changeActualValue;
     let changeActualArray = [];
     // let cidDenomArray;
 
-    for (let i = 0; i < sorted_cid.length; i++) {
-        let arrayToCheck = sorted_cid[i];
+    for (let i = 0; i < modified_sorted_cid.length; i++) {
+        let arrayToCheck = modified_sorted_cid[i];
         let name = arrayToCheck[0];
+        let cidThisDenom = arrayToCheck[1];
         let denomValue = DENOMINATION_VALUES[name];
         // Move onto the next denomination if this one can't help us
-        if (denomValue <= remainingAmtOwed) {
-            let amtThisDenomAvailable = arrayToCheck[1];
-            // This won't do. Only owe 15, and we're on $20 bill, we get 0.75. Floor is 0.
+        if (denomValue <= remainingAmtOwed && cidThisDenom > 0) {
             // How much we ideally would use of this currency
             let maxNeededThisDenom = Math.floor(remainingAmtOwed / denomValue) * denomValue;
-            let cidThisDenom = arrayToCheck[1];
 
             if (maxNeededThisDenom <= 0) continue;
             if (maxNeededThisDenom > 0) {
                 let valueThisDenomToGiveAsChange = Math.min(maxNeededThisDenom, cidThisDenom); 
-                sorted_cid[i][1] -= valueThisDenomToGiveAsChange;
+                modified_sorted_cid[i][1] -= valueThisDenomToGiveAsChange;
                 changeActualValue += valueThisDenomToGiveAsChange;
                 let changeThisDenom = [name, valueThisDenomToGiveAsChange]
                 changeActualArray.push(changeThisDenom);
@@ -98,32 +92,32 @@ getChangeActual = (changeDue, sorted_cid) => {
 
 // tests
 
-let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-logStatusAndChange(test0);
+// let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+// logStatusAndChange(test0);
 // should return
 
 // {status: "OPEN", change: [["QUARTER", 0.5]]}
 
 
 
-let test1 = checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-logStatusAndChange(test1);
+// let test1 = checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+// logStatusAndChange(test1);
 // Off only on the penny array, returning .03 when should be 0.04
 // should return
 
 // {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}.
 
 
-let test2 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-logStatusAndChange(test2);
+// let test2 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
+// logStatusAndChange(test2);
 // returns open and a single penny
 // should return
 
 // {status: "INSUFFICIENT_FUNDS", change: []}
 
 
-let test3 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-logStatusAndChange(test3);
+// let test3 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
+// logStatusAndChange(test3);
 // returns open and a single penny
 // should return
 
@@ -146,4 +140,5 @@ function logStatusAndChange(test) {
         console.log(`currency: ${change[i][0]}`);
         console.log(`value: ${change[i][1]}`);
     }
+    console.log("\n")
 }
