@@ -76,7 +76,7 @@ getChangeActual = (changeDue, sorted_cid) => {
 
             if (maxNeededThisDenom <= 0) continue;
             if (maxNeededThisDenom > 0) {
-                let valueThisDenomToGiveAsChange = Math.min([maxNeededThisDenom, cidThisDenom]); 
+                let valueThisDenomToGiveAsChange = Math.min(maxNeededThisDenom, cidThisDenom); 
                 sorted_cid[i][1] -= valueThisDenomToGiveAsChange;
                 changeActualValue += valueThisDenomToGiveAsChange;
                 let changeThisDenom = [name, valueThisDenomToGiveAsChange]
@@ -99,12 +99,8 @@ getChangeActual = (changeDue, sorted_cid) => {
 // tests
 
 let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-console.log(test0.status)
-change = test0.change
-for (let i = 0; i < change.length; i++) {
-    console.log(`currency: ${change[i][0]}`);
-    console.log(`value: ${change[i][1]}`);
-}
+console.log(`status: ${test0.status}`)
+logChange(test0);
 // should return
 
 // {status: "OPEN", change: [["QUARTER", 0.5]]}
@@ -112,7 +108,7 @@ for (let i = 0; i < change.length; i++) {
 
 
 let test1 = checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-console.log(test1)
+logChange(test1);
 
 // should return
 
@@ -120,7 +116,7 @@ console.log(test1)
 
 
 let test2 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-console.log(test2)
+logChange(test2);
 
 // should return
 
@@ -131,7 +127,7 @@ console.log(test2)
 // We need to check for the exact change before we say the status is closed or open
 // checkIfRequiredChange can be given with available denominations
 let test3 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-console.log(test3)
+logChange(test3);
 
 // should return
 
@@ -139,8 +135,17 @@ console.log(test3)
 
 
 let test4 = checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-console.log(test4)
+logChange(test4);
 
+
+function logChange(test) {
+    change = test.change;
+    console.log("change:");
+    for (let i = 0; i < change.length; i++) {
+        console.log(`currency: ${change[i][0]}`);
+        console.log(`value: ${change[i][1]}`);
+    }
+}
 // should return
 
 // {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}
