@@ -99,7 +99,12 @@ getChangeActual = (changeDue, sorted_cid) => {
 // tests
 
 let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-console.log(test0)
+console.log(test0.status)
+change = test0.change
+for (let i = 0; i < change.length; i++) {
+    console.log(`currency: ${change[i][0]}`);
+    console.log(`value: ${change[i][1]}`);
+}
 // should return
 
 // {status: "OPEN", change: [["QUARTER", 0.5]]}
