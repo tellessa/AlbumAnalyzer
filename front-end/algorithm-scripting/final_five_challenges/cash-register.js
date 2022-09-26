@@ -19,9 +19,27 @@ function checkCashRegister(price, cash, cid) {
     let sorted_cid = cid.slice().sort(sort_by_denom)
     let [changeActualValue, changeActualArray] = getChangeActual(changeDue, sorted_cid);
 
+    let sorted_cid_zeros_removed = [];
+    for (let i = 0; i < sorted_cid.length; i++) {
+        let nested_array = sorted_cid[i]
+        if (nested_array[1] !== 0) {
+            sorted_cid_zeros_removed.push(nested_array);
+        }
+    }
+
+    function TwoDArraysAreEquivalent(outerOne, outerTwo) {
+        for (let i = 0; i < outerOne.length; i++) {
+            if (outerOne[i][0] !== outerTwo[i][0] || outerOne[i][1] !== outerTwo[i][1]) {
+                return false
+            }
+        }
+        return true
+    }
+
     if (changeActualArray === []) {
         statusAndChange.status = "INSUFFICIENT_FUNDS";
-    } else if (changeActualArray === sorted_cid) {
+    // } else if (changeActualArray === sorted_cid_zeros_removed) {
+    } else if (TwoDArraysAreEquivalent(changeActualArray, sorted_cid_zeros_removed)) {
         statusAndChange.status = "CLOSED";
     } else {
         statusAndChange.status = "OPEN";
