@@ -16,8 +16,7 @@ const DENOMINATION_VALUES = {
 function checkCashRegister(price, cash, cid) {
     let changeDue = cash - price;
     let statusAndChange = {};
-    let sorted_cid = [...cid]
-    sorted_cid.sort(sort_by_denom)
+    let sorted_cid = cid.slice().sort(sort_by_denom)
     let [changeActualValue, changeActualArray] = getChangeActual(changeDue, sorted_cid);
 
     if (changeActualArray === []) {
@@ -52,7 +51,12 @@ function sort_by_denom(x, y) {
 }
 
 getChangeActual = (changeDue, sorted_cid) => {
-    modified_sorted_cid = [...sorted_cid];
+    modified_sorted_cid = [];
+    for (let i = 0; i < sorted_cid.length; i++) {
+        let arrayToCopy = sorted_cid[i];
+        let copy_ = arrayToCopy.slice();
+        modified_sorted_cid.push(copy_);
+    }
     let changeActualValue = 0;
     let remainingAmtOwed = changeDue - changeActualValue;
     let changeActualArray = [];
