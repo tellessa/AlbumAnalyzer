@@ -2,17 +2,17 @@
 // cid and status should be tracked on their own and added back to the object at the end of the function right before returning.
 
 const DENOMINATION_VALUES = {
-"ONE HUNDRED": 100,
-"TWENTY": 20,
-"TEN": 10,
-"FIVE":	5,
-"ONE": 1,
-"QUARTER": 0.25,
-"PENNY": 0.01,
-"NICKEL": 0.05,
-"DIME":	0.1
-}
-
+    "ONE HUNDRED": 100,
+    "TWENTY": 20,
+    "TEN": 10,
+    "FIVE":	5,
+    "ONE": 1,
+    "QUARTER": 0.25,
+    "PENNY": 0.01,
+    "NICKEL": 0.05,
+    "DIME":	0.1
+    }
+    
 function checkCashRegister(price, cash, cid) {
     let changeDue = cash - price;
     let statusAndChange = {};
@@ -25,15 +25,6 @@ function checkCashRegister(price, cash, cid) {
         if (nested_array[1] !== 0) {
             sorted_cid_zeros_removed.push(nested_array);
         }
-    }
-
-    function TwoDArraysAreEquivalent(outerOne, outerTwo) {
-        for (let i = 0; i < outerOne.length; i++) {
-            if (outerOne[i][0] !== outerTwo[i][0] || outerOne[i][1] !== outerTwo[i][1]) {
-                return false
-            }
-        }
-        return true
     }
 
     if (changeActualArray === []) {
@@ -50,15 +41,26 @@ function checkCashRegister(price, cash, cid) {
     } else {
         statusAndChange.change = changeActualArray;
     }
-
+    for (let each in statusAndChange){
+        console.log(each)
+    }
     return statusAndChange;
     }
 
+function TwoDArraysAreEquivalent(outerOne, outerTwo) {
+    for (let i = 0; i < outerOne.length; i++) {
+        if (outerOne[i][0] !== outerTwo[i][0] || outerOne[i][1] !== outerTwo[i][1]) {
+            return false
+        }
+    }
+    return true
+}
+    
 function sort_by_denom(x, y) {
-    x_denom = x[0];
-    y_denom = y[0];
-    x_unit_value = DENOMINATION_VALUES[x_denom];
-    y_unit_value = DENOMINATION_VALUES[y_denom];
+    let x_denom = x[0];
+    let y_denom = y[0];
+    let x_unit_value = DENOMINATION_VALUES[x_denom];
+    let y_unit_value = DENOMINATION_VALUES[y_denom];
     if (x_unit_value > y_unit_value) {
         return -1;
     }
@@ -67,9 +69,9 @@ function sort_by_denom(x, y) {
     }
     return 0;
 }
-
-getChangeActual = (changeDue, sorted_cid) => {
-    modified_sorted_cid = [];
+    
+function getChangeActual(changeDue, sorted_cid){
+    let modified_sorted_cid = [];
     for (let i = 0; i < sorted_cid.length; i++) {
         let arrayToCopy = sorted_cid[i];
         let copy_ = arrayToCopy.slice();
@@ -112,10 +114,21 @@ getChangeActual = (changeDue, sorted_cid) => {
     // return changeActualArray
 }
 
+function logStatusAndChange(test) {
+    console.log(`status: ${test.status}`)
+    let change = test.change;
+    console.log("change:");
+    for (let i = 0; i < change.length; i++) {
+        console.log(`currency: ${change[i][0]}`);
+        console.log(`value: ${change[i][1]}`);
+    }
+    console.log("\n")
+}
+
 // tests
 
-// let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-// logStatusAndChange(test0);
+let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+logStatusAndChange(test0);
 // should return
 
 // {status: "OPEN", change: [["QUARTER", 0.5]]}
@@ -146,21 +159,9 @@ getChangeActual = (changeDue, sorted_cid) => {
 // {status: "INSUFFICIENT_FUNDS", change: []}
 
 
-let test4 = checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-logStatusAndChange(test4);
+// let test4 = checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
+// logStatusAndChange(test4);
 // returns correct change, but should be open
 // should return
 
 // {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}
-
-
-function logStatusAndChange(test) {
-    console.log(`status: ${test.status}`)
-    change = test.change;
-    console.log("change:");
-    for (let i = 0; i < change.length; i++) {
-        console.log(`currency: ${change[i][0]}`);
-        console.log(`value: ${change[i][1]}`);
-    }
-    console.log("\n")
-}
