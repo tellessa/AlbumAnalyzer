@@ -27,8 +27,12 @@ function checkCashRegister(price, cash, cid) {
         }
     }
 
-    if (changeActualArray === []) {
+    if (changeActualArray.length === 0) {
         statusAndChange.status = "INSUFFICIENT_FUNDS";
+        statusAndChange.change = [];
+        return statusAndChange;
+
+
     // } else if (changeActualArray === sorted_cid_zeros_removed) {
     } else if (TwoDArraysAreEquivalent(changeActualArray, sorted_cid_zeros_removed)) {
         statusAndChange.status = "CLOSED";
@@ -72,6 +76,14 @@ function sort_by_denom(x, y) {
     
 function getChangeActual(changeDue, sorted_cid){
     let modified_sorted_cid = [];
+    let sorted_cid_value = getValue(sorted_cid);
+    if (changeDue > sorted_cid_value){
+        return [-1, []]
+    }
+    // else if (changeDue === sorted_cid_value){
+    //     return [changeDue, sorted_cid]
+    // }
+
     for (let i = 0; i < sorted_cid.length; i++) {
         let arrayToCopy = sorted_cid[i];
         let copy_ = arrayToCopy.slice();
@@ -115,6 +127,19 @@ function getChangeActual(changeDue, sorted_cid){
     // return changeActualArray
 }
 
+function getValue(cid){
+    let totalValue = 0;
+    for (let i = 0; i < cid.length; i++) {
+        let denomination = cid[i];
+        let denominationValue = denomination[1]
+        totalValue += denominationValue
+    }
+
+    // let rounded = Math.round(totalValue)
+    let rounded = roundOff(totalValue, 2)
+    return rounded
+}
+
 let roundOff = (num, places) => {
     const x = Math.pow(10,places);
     return Math.round(num * x) / x;
@@ -141,16 +166,16 @@ function logStatusAndChange(test) {
 
 
 
-let test1 = checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-logStatusAndChange(test1);
+// let test1 = checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+// logStatusAndChange(test1);
 // Off only on the penny array, returning .03 when should be 0.04
 // should return
 
 // {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}.
 
 
-// let test2 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-// logStatusAndChange(test2);
+let test2 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
+logStatusAndChange(test2);
 // returns open and a single penny
 // should return
 
