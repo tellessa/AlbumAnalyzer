@@ -100,6 +100,7 @@ function getChangeActual(changeDue, sorted_cid){
                 let changeThisDenom = [name, valueThisDenomToGiveAsChange]
                 changeActualArray.push(changeThisDenom);
                 remainingAmtOwed -= valueThisDenomToGiveAsChange;
+                remainingAmtOwed = roundOff(remainingAmtOwed, 2)
                 if (remainingAmtOwed === 0) {
                     // console.log("breaking...")
                     return [changeActualValue, changeActualArray];
@@ -114,6 +115,11 @@ function getChangeActual(changeDue, sorted_cid){
     // return changeActualArray
 }
 
+let roundOff = (num, places) => {
+    const x = Math.pow(10,places);
+    return Math.round(num * x) / x;
+  }
+
 function logStatusAndChange(test) {
     console.log(`status: ${test.status}`)
     let change = test.change;
@@ -127,16 +133,16 @@ function logStatusAndChange(test) {
 
 // tests
 
-let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-logStatusAndChange(test0);
+// let test0 = checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+// logStatusAndChange(test0);
 // should return
 
 // {status: "OPEN", change: [["QUARTER", 0.5]]}
 
 
 
-// let test1 = checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
-// logStatusAndChange(test1);
+let test1 = checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+logStatusAndChange(test1);
 // Off only on the penny array, returning .03 when should be 0.04
 // should return
 
