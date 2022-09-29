@@ -93,7 +93,6 @@ function getChangeActual(changeDue, sorted_cid){
     let remainingAmtOwed = changeDue - changeActualValue;
     let changeActualArray = [];
     // let cidDenomArray;
-
     for (let i = 0; i < modified_sorted_cid.length; i++) {
         let arrayToCheck = modified_sorted_cid[i];
         let name = arrayToCheck[0];
@@ -123,8 +122,10 @@ function getChangeActual(changeDue, sorted_cid){
         // Now check if the total has been reached.
         // if ()
     }
+    if (changeActualValue < changeDue){
+        return [-1, []]
+    }
     return [changeActualValue, changeActualArray];
-    // return changeActualArray
 }
 
 function getValue(cid){
@@ -174,8 +175,8 @@ function logStatusAndChange(test) {
 // {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}.
 
 
-let test2 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
-logStatusAndChange(test2);
+// let test2 = checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]);
+// logStatusAndChange(test2);
 // returns open and a single penny
 // should return
 
