@@ -24,6 +24,14 @@
             "justMyCode": true
         },
         {
+            "name": "Python: audio features",
+            "type": "python",
+            "request": "launch",
+            "program": "apis/spotipy_audio_features_for_track.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
