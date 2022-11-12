@@ -1,6 +1,6 @@
 # shows acoustic features for tracks for the given artist
 
-from __future__ import print_function    # (at top of module)
+import os    # (at top of module)
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
 import spotipy
@@ -61,10 +61,12 @@ def get_whole_album_features(sp, ALBUM_URI):
     return features_by_track
 
 
-def write_to_file(features):
+def write_to_file(features, path):
     counter = 1  # tracks start at 1 not 0
+    if not os.path.exists(path):
+        os.mkdir(path)
     for entry in features:
-        with open(f"switchfoot_results/track {counter}.json", "w") as outfile:
+        with open(path + f"/track {counter}.json", "w") as outfile:
             outfile.write(entry)
         counter += 1
 
@@ -73,4 +75,4 @@ if __name__ == "__main__":
     # get_fire_on_the_cathedral_features(sp, )
     THE_BEAUTIFUL_LETDOWN_DELUXE = "spotify:album:2mIYia4lSO1NCSFGGGGNR9"
     beautiful_letdown_features = get_whole_album_features(sp, THE_BEAUTIFUL_LETDOWN_DELUXE)
-    write_to_file(beautiful_letdown_features)
+    write_to_file(beautiful_letdown_features, "switchfoot_results")
