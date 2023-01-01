@@ -27,24 +27,15 @@ def get_audio_features_with_command_line_args():
 
 def get_audio_features_timed(sp, TRACK_URI):
     start = time.time()
-    features = get_audio_features(sp, TRACK_URI)
+    features = _get_audio_features(sp, TRACK_URI)
     delta = time.time() - start
     print("features retrieved in %.2f seconds" % (delta,))
     return features, delta
 
 
-def get_audio_features(sp, TRACK_URI):
+def _get_audio_features(sp, TRACK_URI):
     features = sp.audio_features(TRACK_URI)
     features_json_string = json.dumps(features, indent=4)
-    return features_json_string
-
-
-def get_fire_on_the_cathedral_features(sp, TRACK_URI):
-    # Fire on the Cathedral
-    TRACK_URI = "spotify:track:6Rskc4RUqPgmcxkQic0a5G"
-    features = get_audio_features_timed(sp, TRACK_URI)[0]
-    features_json_string = json.dumps(features, indent=4)
-    print(features_json_string)
     return features_json_string
 
 
@@ -78,6 +69,15 @@ def get_album_features():
     THE_BEAUTIFUL_LETDOWN_DELUXE = "spotify:album:2mIYia4lSO1NCSFGGGGNR9"
     beautiful_letdown_features = get_whole_album_features(sp, THE_BEAUTIFUL_LETDOWN_DELUXE)
     write_to_file(beautiful_letdown_features, "switchfoot_results")
+
+
+def get_fire_on_the_cathedral_features():
+    # Fire on the Cathedral
+    TRACK_URI = "spotify:track:6Rskc4RUqPgmcxkQic0a5G"
+    features = get_audio_features_timed(sp, TRACK_URI)[0]
+    features_json_string = json.dumps(features, indent=4)
+    print(features_json_string)
+    return features_json_string
 
 
 if __name__ == "__main__":
