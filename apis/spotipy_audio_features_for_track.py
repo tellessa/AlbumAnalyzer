@@ -43,7 +43,9 @@ def get_fire_on_the_cathedral_features(sp, TRACK_URI):
     # Fire on the Cathedral
     TRACK_URI = "spotify:track:6Rskc4RUqPgmcxkQic0a5G"
     features = get_audio_features_timed(sp, TRACK_URI)[0]
-    print(features)
+    features_json_string = json.dumps(features, indent=4)
+    print(features_json_string)
+    return features_json_string
 
 
 def get_whole_album_features(sp, ALBUM_URI):
@@ -79,4 +81,4 @@ def get_album_features():
 
 
 if __name__ == "__main__":
-    main()
+    get_album_features()
