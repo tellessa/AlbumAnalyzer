@@ -1,6 +1,8 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
+# works 12/31/2022
+
 
 def main():
     auth_manager = SpotifyClientCredentials()

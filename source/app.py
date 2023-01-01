@@ -7,6 +7,8 @@ from PySide6 import QtGui, QtCore
 from forms.main_screen_menu import MainScreenMenu
 from forms.main_window import MainWindow
 
+from apis import spotipy_audio_features_for_track
+
 ll = logging.getLogger(__name__)
 
 
@@ -58,3 +60,6 @@ class App(QtCore.QObject):
 
     def add_main_menu(self, widget):
         self.view.add_main_menu(widget)
+
+    def get_album_features(self):
+        spotipy_audio_features_for_track.get_album_features()

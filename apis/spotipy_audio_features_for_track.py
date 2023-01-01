@@ -71,8 +71,12 @@ def write_to_file(features, path):
         counter += 1
 
 
-if __name__ == "__main__":
+def get_album_features():
     # get_fire_on_the_cathedral_features(sp, )
     THE_BEAUTIFUL_LETDOWN_DELUXE = "spotify:album:2mIYia4lSO1NCSFGGGGNR9"
     beautiful_letdown_features = get_whole_album_features(sp, THE_BEAUTIFUL_LETDOWN_DELUXE)
     write_to_file(beautiful_letdown_features, "switchfoot_results")
+
+
+if __name__ == "__main__":
+    main()
