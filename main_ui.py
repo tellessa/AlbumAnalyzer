@@ -29,7 +29,7 @@ if __name__ == "__main__":
     sys.excepthook = exception_hook
 
     # Load Qt base
-    from PySide2 import QtWidgets, QtGui, QtCore
+    from PySide6 import QtWidgets, QtGui, QtCore
 
     # Application wide settings
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
@@ -38,14 +38,14 @@ if __name__ == "__main__":
     QtWidgets.QApplication.setStyle(QtWidgets.QStyleFactory.create("Fusion"))
 
     # Initalize Splash
-    from gen import resources_rc
+    # from gen import resources_rc
     pixmap = QtGui.QPixmap(":/assets/creative/splash.svg")
     splash = QtWidgets.QSplashScreen(pixmap)
     splash.show()
 
     # Create App
     from source.app import App
-    app = App(qApp)
+    app = App(qApp, True, [1, 0, 0])
 
     qApp.lastWindowClosed.connect(lambda: app.close())
     splash.finish(app.view)

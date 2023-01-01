@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QFrame" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>760</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TruView</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame#MainWindow{
+background-color: qlineargradient(spread:reflect, x1:0.7, y1:0.725, x2:0.71, y2:0.735, stop:0.619318 rgba(255, 255, 255, 255), stop:0.642045 rgba(252, 252, 252, 255));
+}
+QPushButton{
+background-color: #eeeeee;
+border-style: outset;
+border-width: 0px;
+border-radius: 7px;
+padding: 4px;
+font-size:25px;
+}
+QPushButton:hover{
+background-color: #dddddd;
+}
+QPushButton:pressed{
+background-color: #cccccc;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>15</number>
+   </property>
+   <property name="leftMargin">
+    <number>15</number>
+   </property>
+   <property name="topMargin">
+    <number>15</number>
+   </property>
+   <property name="rightMargin">
+    <number>15</number>
+   </property>
+   <property name="bottomMargin">
+    <number>15</number>
+   </property>
+   <item>
+    <widget class="QStackedWidget" name="stackedWidget_main">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page_main">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>20</number>
+       </property>
+       <property name="topMargin">
+        <number>20</number>
+       </property>
+       <property name="rightMargin">
+        <number>20</number>
+       </property>
+       <property name="bottomMargin">
+        <number>20</number>
+       </property>
+       <item>
+        <widget class="QStackedWidget" name="stackedWidget_screens">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+font-family:&quot;Consolas&quot;;
+font-size:60px;
+}
+QPushButton{
+background-color: #eeeeee;
+border-style: outset;
+border-width: 0px;
+border-radius: 7px;
+max-width: 400px;
+padding: 4px;
+font-size:25px;
+}
+QPushButton:hover{
+background-color: #dddddd;
+}
+QPushButton:pressed{
+background-color: #cccccc;
+}</string>
+         </property>
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_utility">
+      <layout class="QVBoxLayout" name="verticalLayout_3"/>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../truview-next/TruViewNEXT/resources.qrc"/>
+  <include location="../../truview-next/TruViewNEXT/resources.qrc"/>
+  <include location="resources.qrc"/>
+  <include location="../../../source/repos/PythonApplication4/resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
