@@ -116,9 +116,9 @@ class Widget(QWidget):
         self.id_value_label = QLabel("pending...")
         self.uri_value_label = QLabel("pending...")
         self.track_href_value_label = QLabel("pending...")
-        self.analysis_url_value_label = QLabel("pending... URL")
-        self.duration_value_label = QLabel("pending... in ms")
-        self.time_signature_value_label = QLabel("pending... Signature")
+        self.analysis_url_value_label = QLabel("pending...")
+        self.duration_value_label = QLabel("pending...")
+        self.time_signature_value_label = QLabel("pending...")
 
         self.value_labels = [
             self.danceability_value_label,
