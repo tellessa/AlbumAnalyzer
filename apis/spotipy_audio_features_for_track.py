@@ -25,18 +25,17 @@ def get_audio_features_with_command_line_args():
         print("features retrieved in %.2f seconds" % (delta,))
 
 
-def get_audio_features_timed(sp, TRACK_URI):
+def _get_audio_features_timed(sp, TRACK_URI):
     start = time.time()
-    features = _get_audio_features(sp, TRACK_URI)
+    features: dict = _get_audio_features(sp, TRACK_URI)
     delta = time.time() - start
     print("features retrieved in %.2f seconds" % (delta,))
     return features, delta
 
 
 def _get_audio_features(sp, TRACK_URI):
-    features = sp.audio_features(TRACK_URI)
-    features_json_string = json.dumps(features, indent=4)
-    return features_json_string
+    features = sp.audio_features(TRACK_URI)[0]
+    return features
 
 
 def get_whole_album_features(sp, ALBUM_URI):
@@ -48,7 +47,7 @@ def get_whole_album_features(sp, ALBUM_URI):
     for item in items:
         # spotify:track:2md2i5QvelRFnafpnd6LOg
         uri = item["uri"]
-        features = get_audio_features_timed(sp, uri)[0]
+        features = _get_audio_features_timed(sp, uri)[0]
         features_by_track.append(features)
         print(features)
     return features_by_track
@@ -72,12 +71,18 @@ def get_album_features():
 
 
 def get_fire_on_the_cathedral_features():
-    # Fire on the Cathedral
+    # Fire on the Cathedral URI
     TRACK_URI = "spotify:track:6Rskc4RUqPgmcxkQic0a5G"
-    features = get_audio_features_timed(sp, TRACK_URI)[0]
-    features_json_string = json.dumps(features, indent=4)
-    print(features_json_string)
-    return features_json_string
+    features = _get_audio_features_timed(sp, TRACK_URI)
+    return features
+
+
+def get_audio_features_timed(TRACK_URI):
+    return _get_audio_features_timed(sp, TRACK_URI)
+
+
+def get_audio_features(TRACK_URI):
+    return _get_audio_features(sp, TRACK_URI)
 
 
 if __name__ == "__main__":
