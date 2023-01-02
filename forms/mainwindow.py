@@ -10,7 +10,7 @@ class Widget(QWidget):
         self.setWindowTitle("Spotify Audio Features")
 
         # A set of signals we can connect to
-        label = QLabel("Track Name : ")
+        label = QLabel("Track URI : ")
         self.line_edit = QLineEdit()
         # self.line_edit.textChanged.connect(self.text_changed)
         # self.line_edit.cursorPositionChanged.connect(self.cursor_position_changed)
@@ -146,9 +146,11 @@ class Widget(QWidget):
         # spotipy_audio_features_for_track.get_fire_on_the_cathedral_features()
         self.text_holder_label.setText(self.line_edit.text())
         track_id = self.line_edit.text()
-        # features = spotipy_audio_features_for_track.get_audio_features(track_id)
-        # hard code to one song for now
-        features = spotipy_audio_features_for_track.get_audio_features("spotify:track:6Rskc4RUqPgmcxkQic0a5G")
+        features = spotipy_audio_features_for_track.get_audio_features(track_id)
+        # Fire on the Cathedral by Sun Theater
+        # features = spotipy_audio_features_for_track.get_audio_features("spotify:track:6Rskc4RUqPgmcxkQic0a5G")
+        # Gloria by Michael Telles
+        # features = spotipy_audio_features_for_track.get_audio_features("spotify:track:6eT3lO8HbGMmDftI5aIY1T")
         self._show_track_features(features)
 
     def _show_track_features(self, features):
