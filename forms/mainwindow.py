@@ -146,8 +146,30 @@ class Widget(QWidget):
         # spotipy_audio_features_for_track.get_fire_on_the_cathedral_features()
         self.text_holder_label.setText(self.line_edit.text())
         track_id = self.line_edit.text()
-        features = spotipy_audio_features_for_track.get_audio_features(track_id)
-        print(features)
+        # features = spotipy_audio_features_for_track.get_audio_features(track_id)
+        # hard code to one song for now
+        features = spotipy_audio_features_for_track.get_audio_features("spotify:track:6Rskc4RUqPgmcxkQic0a5G")
+        self._show_track_features(features)
+
+    def _show_track_features(self, features):
+        self.danceability_value_label.setText(str(features["danceability"]))
+        self.energy_value_label.setText(str(features["energy"]))
+        self.key_value_label.setText(str(features["key"]))
+        self.loudness_value_label.setText(str(features["loudness"]))
+        self.mode_value_label.setText(str(features["mode"]))
+        self.speechiness_value_label.setText(str(features["speechiness"]))
+        self.acousticness_value_label.setText(str(features["acousticness"]))
+        self.instrumentalness_value_label.setText(str(features["instrumentalness"]))
+        self.liveness_value_label.setText(str(features["liveness"]))
+        self.valence_value_label.setText(str(features["valence"]))
+        self.tempo_value_label.setText(str(features["tempo"]))
+        self.type_value_label.setText(str(features["type"]))
+        self.id_value_label.setText(str(features["id"]))
+        self.uri_value_label.setText(str(features["uri"]))
+        self.track_href_value_label.setText(str(features["track_href"]))
+        self.analysis_url_value_label.setText(str(features["analysis_url"]))
+        self.duration_value_label.setText(str(features["duration_ms"]))
+        self.time_signature_value_label.setText(str(features["time_signature"]))
 
     # Slots
     def button_clicked(self):
