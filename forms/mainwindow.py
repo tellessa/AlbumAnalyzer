@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QVBoxLayout, QLabel, QPushButton
+from PySide6.QtGui import QPixmap
 
 from apis import spotipy_audio_features_for_track
 
@@ -31,6 +32,19 @@ class Widget(QWidget):
         self.v_layout = QVBoxLayout()
         self.v_layout.addLayout(h_layout)
         self.v_layout.addWidget(button_get_track_features)
+
+        pixmap = QPixmap("C:\\Users\\StephenTelles\\Documents\\images\\Short Ignitor WS001-0007.png")
+
+        lbl = QLabel(self)
+        lbl.setPixmap(pixmap)
+
+        self.move(300, 200)
+        self.setWindowTitle('Image with PyQt')
+        self.show()
+
+        image_h_layout = QHBoxLayout()
+        image_h_layout.addWidget(lbl)
+        self.v_layout.addLayout(image_h_layout)
 
         self.setLayout(self.v_layout)
 
