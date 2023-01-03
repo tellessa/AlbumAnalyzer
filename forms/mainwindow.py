@@ -77,7 +77,9 @@ class Widget(QWidget):
     def _show_track_features(self, features):
         self.danceability_value_label.setText(str(features["danceability"]))
         self.energy_value_label.setText(str(features["energy"]))
-        self.key_value_label.setText(str(features["key"]))
+        keys = ["C", "C#/D♭", "D", "D#/E♭", "E", "F", "F#/G♭", "G", "G#/A♭", "A", "A#/B♭", "B"]
+        # Use the key as an index to map integers to pitches, zero-indexed
+        self.key_value_label.setText((keys[features["key"] + 1]))
         self.loudness_value_label.setText(str(features["loudness"]))
         self.mode_value_label.setText(str(features["mode"]))
         self.speechiness_value_label.setText(str(features["speechiness"]))
@@ -174,7 +176,8 @@ class Widget(QWidget):
         )
         self.key_key_label.setToolTip(
             'The key the track is in. Integers map to pitches using standard Pitch Class notation. ' +
-            'E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.')
+            'E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.'
+        )
         self.loudness_key_label.setToolTip(
             'The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track ' +
             'and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is ' +
