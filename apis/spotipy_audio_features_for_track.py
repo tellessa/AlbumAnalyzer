@@ -33,6 +33,67 @@ def _get_audio_features_timed(sp, TRACK_URI):
     return features, delta
 
 
+def _search(sp, q, type=None):
+    """Returns a dict where the keys are various nouns involved in music (e.g. tracks, albums, etc).
+    The values are dicts. For a track
+    {
+        "href": str,
+        "items": list[dict],
+        "limit": int,
+        "next": str,
+        "offset": int,
+        "previous": Union[None, str],
+        "total": int
+    }
+    ***items in detail:
+        {
+            album: ...,
+            artists: ...,
+            available markets: ...,
+            disc_number: int,
+            duration_ms: int,
+            "explicit": bool,
+            "external_ids: dict,
+            external_urls: dict,
+            href: str,
+            id: str,
+            "is_local": bool,
+            "name": str,
+            "popularity": int,
+            "preview_url": str,
+            "track_number": int,
+            "type": "track",
+            "uri": str
+        }
+    """
+    """Using this data structure, we can figure out how
+    to show our app's users the names and artists of the n (10+) tracks that best match their search"""
+    """In the tracks dict, I care most about the items key."""
+    result: dict
+
+    if type is None:
+        result = sp.search(q)
+    elif type == "track":
+        result = sp.search(q, type=type)
+        track: dict
+        track_items: list = result["tracks"]["items"]
+        # cut to only the first result to get one result only
+        for track in track_items[0:1]:
+            track_artists = track["artists"]
+            combined_artists_name: str = track_artists[0]["name"]
+            # add a comma and space before additional artists
+            for artist in track_artists[1:]:
+                artist_name = artist["name"]
+                combined_artists_name += f", {artist_name}"
+            track_name: str = track["name"]
+            track_uri: str = track["uri"]
+            track_id: str = track["id"]
+
+    else:
+        result = sp.search(q, type=type)
+    return result
+
+
 def _get_audio_features(sp, TRACK_URI):
     features = sp.audio_features(TRACK_URI)[0]
     return features
@@ -86,4 +147,6 @@ def get_audio_features(TRACK_URI):
 
 
 if __name__ == "__main__":
-    get_album_features()
+    # get_album_features()
+    # search_results = _search(sp, "Have Yourself A Merry Little Christmas")
+    search_results = _search(sp, "Tim McGraw", type="track")
