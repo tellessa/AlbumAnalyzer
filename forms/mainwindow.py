@@ -25,7 +25,7 @@ class Widget(QWidget):
         button_search.setToolTip("Search for a specific track")
         button_search.clicked.connect(self.search)
 
-        self.text_holder_label = QLabel("I AM HERE")
+        self.text_holder_label = QLabel("")
         h_layout = QHBoxLayout()
         h_layout.addWidget(label)
         h_layout.addWidget(self.line_edit)
@@ -92,7 +92,7 @@ class Widget(QWidget):
             # fallback for when we want to test without pasting in a specific song
             query = 'Fire On The Cathedral'
         results = spotipy_audio_features_for_track.search(query, type="track")
-        query_result = QLabel(f"{results}")
+        query_result = QPushButton(f"{results}")
         self.v_layout.addWidget(query_result)
 
     def _show_track_features(self, features):
