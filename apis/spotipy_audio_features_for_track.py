@@ -74,20 +74,24 @@ def _search(sp, q, type=None):
     if type is None:
         result = sp.search(q)
     elif type == "track":
+        # parse track results
         result = sp.search(q, type=type)
         track: dict
         track_items: list = result["tracks"]["items"]
         # cut to only the first result to get one result only
-        for track in track_items[0:1]:
-            track_artists = track["artists"]
-            combined_artists_name: str = track_artists[0]["name"]
-            # add a comma and space before additional artists
-            for artist in track_artists[1:]:
-                artist_name = artist["name"]
-                combined_artists_name += f", {artist_name}"
-            track_name: str = track["name"]
-            track_uri: str = track["uri"]
-            track_id: str = track["id"]
+        # hardcode to only return one for now
+        # for track in track_items[0]:
+        track = track_items[0]
+        track_artists = track["artists"]
+        combined_artists_name: str = track_artists[0]["name"]
+        # add a comma and space before additional artists
+        for artist in track_artists[1:]:
+            artist_name = artist["name"]
+            combined_artists_name += f", {artist_name}"
+        track_name: str = track["name"]
+        track_uri: str = track["uri"]
+        track_id: str = track["id"]
+        result = f"{track_name} by {combined_artists_name}"
 
     else:
         result = sp.search(q, type=type)
@@ -144,6 +148,10 @@ def get_audio_features_timed(TRACK_URI):
 
 def get_audio_features(TRACK_URI):
     return _get_audio_features(sp, TRACK_URI)
+
+
+def search(q, type=None):
+    return _search(sp, q, type=type)
 
 
 if __name__ == "__main__":

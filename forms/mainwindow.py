@@ -21,6 +21,10 @@ class Widget(QWidget):
         button_get_track_features.setToolTip("Get Audio Features for the specified track URI")
         button_get_track_features.clicked.connect(self.get_track_features)
 
+        button_search = QPushButton("Search")
+        button_search.setToolTip("Search for a specific track")
+        button_search.clicked.connect(self.search)
+
         self.text_holder_label = QLabel("I AM HERE")
         h_layout = QHBoxLayout()
         h_layout.addWidget(label)
@@ -28,6 +32,7 @@ class Widget(QWidget):
 
         self.v_layout = QVBoxLayout()
         self.v_layout.addLayout(h_layout)
+        self.v_layout.addWidget(button_search)
         self.v_layout.addWidget(button_get_track_features)
 
         # pixmap = QPixmap("C:\\Users\\StephenTelles\\Documents\\images\\Short Ignitor WS001-0007.png")
@@ -48,8 +53,6 @@ class Widget(QWidget):
         self.setLayout(self.v_layout)
 
     def get_track_features(self):
-        """TODO: Get the features of the song specified by the line edit's current text"""
-        # spotipy_audio_features_for_track.get_fire_on_the_cathedral_features()
         self.text_holder_label.setText(self.line_edit.text())
         self.v_layout.addWidget(self.text_holder_label)
         track_id = self.line_edit.text()
@@ -81,6 +84,16 @@ class Widget(QWidget):
         # Gloria by Michael Telles
         # features = spotipy_audio_features_for_track.get_audio_features("spotify:track:6eT3lO8HbGMmDftI5aIY1T")
         self._show_track_features(features)
+
+    def search(self):
+        self.text_holder_label.setText(self.line_edit.text())
+        query = self.line_edit.text()
+        if query == "":
+            # fallback for when we want to test without pasting in a specific song
+            query = 'Fire On The Cathedral'
+        results = spotipy_audio_features_for_track.search(query, type="track")
+        query_result = QLabel(f"{results}")
+        self.v_layout.addWidget(query_result)
 
     def _show_track_features(self, features):
         self.danceability_value_label.setText(str(features["danceability"]))
