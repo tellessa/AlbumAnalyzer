@@ -14,10 +14,7 @@ class Widget(QWidget):
         label = QLabel("Track URI : ")
         self.line_edit = QLineEdit()
         # self.line_edit.textChanged.connect(self.text_changed)
-        # self.line_edit.cursorPositionChanged.connect(self.cursor_position_changed)
-        # self.line_edit.editingFinished.connect(self.editing_finished)
         self.line_edit.returnPressed.connect(self.return_pressed)
-        # self.line_edit.selectionChanged.connect(self.selection_changed)
         self.line_edit.textEdited.connect(self.text_edited)
 
         button_get_track_features = QPushButton("Get Audio Features")
@@ -33,7 +30,9 @@ class Widget(QWidget):
         self.v_layout.addLayout(h_layout)
         self.v_layout.addWidget(button_get_track_features)
 
-        pixmap = QPixmap("C:\\Users\\StephenTelles\\Documents\\images\\Short Ignitor WS001-0007.png")
+        # pixmap = QPixmap("C:\\Users\\StephenTelles\\Documents\\images\\Short Ignitor WS001-0007.png")
+        pixmap = QPixmap(
+            "C:\\Users\\StephenTelles\\Desktop\\desktop repos\\inactive projects\\data_engineering\\assets\\custom\\spotify logo 25 perc.png")
 
         lbl = QLabel(self)
         lbl.setPixmap(pixmap)
@@ -61,11 +60,20 @@ class Widget(QWidget):
 
         self._create_key_labels()
         self._set_audio_feature_tool_tips()
+        # label_with_pixmap = QLabel("...")
+        # label_with_pixmap.setPixmap(QPixmap(
+        #     "C:\\Users\\StephenTelles\\Desktop\\desktop repos\\inactive projects\\data_engineering\\assets\\brands\\accessible-icon.svg"))
+        # self.audio_feature_icons = [
+        #     label_with_pixmap
+        # ]
+        # self._set_audio_feature_icons()
         self._create_value_labels()
         for i, label in enumerate(self.key_labels):
             property_h_layout = QHBoxLayout()
             property_h_layout.addWidget(label)
             # add the corresponding value label to the same row of the layout
+            # property_h_layout.addWidget(self.audio_feature_icons[i])
+            # property_h_layout. addWidget(self.audio_feature_icons[0])
             property_h_layout.addWidget(self.value_labels[i])
             self.v_layout.addLayout(property_h_layout)
         # Fire on the Cathedral by Sun Theater
@@ -93,8 +101,16 @@ class Widget(QWidget):
         self.uri_value_label.setText(str(features["uri"]))
         self.track_href_value_label.setText(str(features["track_href"]))
         self.analysis_url_value_label.setText(str(features["analysis_url"]))
-        self.duration_value_label.setText(str(features["duration_ms"]))
+        formatted_duration = self.format_duration(features["duration_ms"])
+        self.duration_value_label.setText(formatted_duration)
         self.time_signature_value_label.setText(str(features["time_signature"]))
+
+    def format_duration(self, duration_ms):
+        duration_s = int(duration_ms / 1000)
+        minutes = duration_s // 60
+        seconds_leftover = duration_s % 60
+        formatted_duration = f"{minutes}:{seconds_leftover}"
+        return formatted_duration
 
     # Slots
     def button_clicked(self):
@@ -138,7 +154,7 @@ class Widget(QWidget):
         self.uri_key_label = QLabel("URI")
         self.track_href_key_label = QLabel("Track_HREF")
         self.analysis_url_key_label = QLabel("Analysis URL")
-        self.duration_key_label = QLabel("Duration in ms")
+        self.duration_key_label = QLabel("Duration (min:s)")
         self.time_signature_key_label = QLabel("Time Signature")
 
         self.key_labels = [
@@ -230,6 +246,73 @@ class Widget(QWidget):
         self.time_signature_key_label.setToolTip('An estimated time signature. The time signature (meter) is a notational ' +
                                                  'convention to specify how many beats are in each bar ( or measure). The ' +
                                                  'time signature ranges from 3 to 7 indicating time signatures of "3/4", to "7/4"')
+
+    def _set_audio_feature_icons(self):
+        pass
+        # self.danceability_key_label.setPixmap(
+        #     "C:\\Users\\StephenTelles\\Desktop\\desktop repos\\inactive projects\\data_engineering\\assets\\brands\\accessible-icon.svg")
+        # self.energy_key_label.setToolTip(
+        #     'Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and ' +
+        #     'activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has ' +
+        #     'high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to ' +
+        #     'this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.'
+        # )
+        # self.key_key_label.setToolTip(
+        #     'The key the track is in. Integers map to pitches using standard Pitch Class notation. ' +
+        #     'E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on. If no key was detected, the value is -1.'
+        # )
+        # self.loudness_key_label.setToolTip(
+        #     'The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track ' +
+        #     'and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is ' +
+        #     'the primary psychological correlate of physical strength (amplitude). Values typically range between ' +
+        #     '-60 and 0 db.')
+        # self.mode_key_label.setToolTip(
+        #     'Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic ' +
+        #     'content is derived. Major is represented by 1 and minor is 0.')
+        # self.speechiness_key_label.setToolTip(
+        #     'Speechiness detects the presence of spoken words in a track. The more ' +
+        #     'exclusively speech-like the recording (e.g. talk show, audio book, poetry), ' +
+        #     'the closer to 1.0 the attribute value. Values above 0.66 describe tracks ' +
+        #     'that are probably made entirely of spoken words. Values between 0.33 ' +
+        #     'and 0.66 describe tracks that may contain both music and speech, ' +
+        #     'either in sections or layered, including such cases as rap music. Values ' +
+        #     'below 0.33 most likely represent music and other non-speech-like tracks.'
+        # )
+        # self.acousticness_key_label.setToolTip(
+        #     "A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence" +
+        #     " the track is acoustic.")
+        # self.instrumentalness_key_label.setToolTip(
+        #     'Predicts whether a track contains no vocals. "Ooh" and "aah" sounds are treated as instrumental in ' +
+        #     'this context. Rap or spoken word tracks are clearly "vocal". The closer the instrumentalness value ' +
+        #     'is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended ' +
+        #     'to represent instrumental tracks, but confidence is higher as the value approaches 1.0.')
+        # self.liveness_key_label.setToolTip(
+        #     'Detects the presence of an audience in the recording. Higher liveness values represent an ' +
+        #     'increased probability that the track was performed live. A value above 0.8 provides strong likelihood ' +
+        #     'that the track is live.')
+        # self.valence_key_label.setToolTip(
+        #     'A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with ' +
+        #     'high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence ' +
+        #     'sound more negative (e.g. sad, depressed, angry).'
+        # )
+        # self.tempo_key_label.setToolTip(
+        #     'The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo ' +
+        #     'is the speed or pace of a given piece and derives directly from the average beat duration.'
+        # )
+        # self.type_key_label.setToolTip('The object type.')
+        # self.id_key_label.setToolTip(
+        #     'The Spotify ID for the track.')
+        # self.uri_key_label.setToolTip('The Spotify URI for the track.')
+        # self.track_href_key_label.setToolTip('A link to the Web API endpoint providing full details of the track.')
+        # self.analysis_url_key_label.setToolTip(
+        #     'A URL to access the full audio analysis of this track. An access token is required to access this data.'
+        # )
+        # self.duration_key_label.setToolTip(
+        #     'The duration of the track in milliseconds.'
+        # )
+        # self.time_signature_key_label.setToolTip('An estimated time signature. The time signature (meter) is a notational ' +
+        #                                          'convention to specify how many beats are in each bar ( or measure). The ' +
+        #                                          'time signature ranges from 3 to 7 indicating time signatures of "3/4", to "7/4"')
 
     def _create_value_labels(self):
         # value labels
