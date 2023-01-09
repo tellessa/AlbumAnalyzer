@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QVBoxLayout, QLabel, QPushButton
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QImage, QPixmap
+import requests
 
 from apis import spotipy_audio_features_for_track
 
@@ -91,9 +92,44 @@ class Widget(QWidget):
         if query == "":
             # fallback for when we want to test without pasting in a specific song
             query = 'Fire On The Cathedral'
-        results = spotipy_audio_features_for_track.search(query, type="track")
-        query_result = QPushButton(f"{results}")
-        self.v_layout.addWidget(query_result)
+        fields_of_interest = spotipy_audio_features_for_track.search(query, type="track")
+        track_name = f"{fields_of_interest['name']} by {fields_of_interest['artists']}"
+
+        query_result_button = QPushButton(f"{track_name}")
+        query_result_button.clicked.connect(self.printtt)
+        # Get the art and add it to the button
+        # resize the image url before using it
+        url_image = fields_of_interest["album art url"]
+        image = QImage()
+        image.loadFromData(requests.get(url_image).content)
+        # Works!
+        image = image.scaled(100, 100)
+        label = QLabel("album art")
+        image_qPixmap = QPixmap(image)
+        # image_qPixmap.scaled()
+        label.setPixmap(image_qPixmap)
+        # Maybe the top ten results should populate into a QComboBox, with a QPushButton attached
+        # When you search tracks in the spotify web player, you see the top four results
+        # You get the track's icon which reveals a play button on hover,
+        # and a tool tip
+        # You see the artist name small below the track; the artist's name has a URL for the artist's page
+        # if you click on it.
+        # You can click a heart icon to add it to your library
+        # By default queries search all, but you can filter to song
+        # If we filter to songs, we see a tabular view- 4 cols
+        # result #, title, album, and duration
+        # title actually shows the artist and art as well
+        # TODO: Connect to the song's audio
+        # Even though the goal is to help listeners
+        # understand audio features of songs, double
+        # checking the song's audio is super pertinent
+        self.result_0_h_layout = QHBoxLayout()
+        self.result_0_h_layout.addWidget(label)
+        self.result_0_h_layout.addWidget(query_result_button)
+        self.v_layout.addLayout(self.result_0_h_layout)
+
+    def printtt(self):
+        print("You made it this far!")
 
     def _show_track_features(self, features):
         self.danceability_value_label.setText(str(features["danceability"]))

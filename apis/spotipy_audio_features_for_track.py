@@ -72,13 +72,13 @@ def _search(sp, q, type=None):
     result: dict
 
     if type is None:
-        result = sp.search(q)
+        fields_of_interest = sp.search(q)
     elif type == "track":
+        fields_of_interest = {}
         # parse track results
         result = sp.search(q, type=type)
         track: dict
         track_items: list = result["tracks"]["items"]
-        # cut to only the first result to get one result only
         # hardcode to only return one for now
         # for track in track_items[0]:
         track = track_items[0]
@@ -91,11 +91,14 @@ def _search(sp, q, type=None):
         track_name: str = track["name"]
         track_uri: str = track["uri"]
         track_id: str = track["id"]
-        result = f"{track_name} by {combined_artists_name}"
+        album_art_url: str = track["album"]["images"][0]["url"]
+        fields_of_interest["name"] = track_name
+        fields_of_interest["artists"] = combined_artists_name
+        fields_of_interest["album art url"] = album_art_url
 
     else:
-        result = sp.search(q, type=type)
-    return result
+        fields_of_interest = sp.search(q, type=type)
+    return fields_of_interest
 
 
 def _get_audio_features(sp, TRACK_URI):
