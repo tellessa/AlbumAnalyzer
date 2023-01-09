@@ -20,7 +20,7 @@ class Widget(QWidget):
 
         button_get_track_features = QPushButton("Get Audio Features")
         button_get_track_features.setToolTip("Get Audio Features for the specified track URI")
-        button_get_track_features.clicked.connect(self.get_track_features)
+        button_get_track_features.clicked.connect(lambda: self.get_track_features(self.line_edit.text()))
 
         button_search = QPushButton("Search")
         button_search.setToolTip("Search for a specific track")
@@ -53,14 +53,13 @@ class Widget(QWidget):
 
         self.setLayout(self.v_layout)
 
-    def get_track_features(self):
-        self.text_holder_label.setText(self.line_edit.text())
+    def get_track_features(self, track_uri):
         self.v_layout.addWidget(self.text_holder_label)
-        track_id = self.line_edit.text()
-        if track_id == "":
+        self.text_holder_label.setText(track_uri)
+        if track_uri == "":
             # fallback for when we want to test without pasting in a specific song
-            track_id = 'spotify:track:6Rskc4RUqPgmcxkQic0a5G'
-        features = spotipy_audio_features_for_track.get_audio_features(track_id)
+            track_uri = 'spotify:track:6Rskc4RUqPgmcxkQic0a5G'
+        features = spotipy_audio_features_for_track.get_audio_features(track_uri)
 
         self._create_key_labels()
         self._set_audio_feature_tool_tips()
@@ -80,10 +79,6 @@ class Widget(QWidget):
             # property_h_layout. addWidget(self.audio_feature_icons[0])
             property_h_layout.addWidget(self.value_labels[i])
             self.v_layout.addLayout(property_h_layout)
-        # Fire on the Cathedral by Sun Theater
-        # features = spotipy_audio_features_for_track.get_audio_features("spotify:track:6Rskc4RUqPgmcxkQic0a5G")
-        # Gloria by Michael Telles
-        # features = spotipy_audio_features_for_track.get_audio_features("spotify:track:6eT3lO8HbGMmDftI5aIY1T")
         self._show_track_features(features)
 
     def search(self):
@@ -96,40 +91,22 @@ class Widget(QWidget):
         track_name = f"{fields_of_interest['name']} by {fields_of_interest['artists']}"
 
         query_result_button = QPushButton(f"{track_name}")
-        query_result_button.clicked.connect(self.printtt)
+        query_result_button.clicked.connect(
+            lambda: self.get_track_features(fields_of_interest["uri"]))
         # Get the art and add it to the button
         # resize the image url before using it
         url_image = fields_of_interest["album art url"]
         image = QImage()
         image.loadFromData(requests.get(url_image).content)
-        # Works!
+        # TODO: load and display images from instagram as well using these methods
         image = image.scaled(100, 100)
         label = QLabel("album art")
         image_qPixmap = QPixmap(image)
-        # image_qPixmap.scaled()
         label.setPixmap(image_qPixmap)
-        # Maybe the top ten results should populate into a QComboBox, with a QPushButton attached
-        # When you search tracks in the spotify web player, you see the top four results
-        # You get the track's icon which reveals a play button on hover,
-        # and a tool tip
-        # You see the artist name small below the track; the artist's name has a URL for the artist's page
-        # if you click on it.
-        # You can click a heart icon to add it to your library
-        # By default queries search all, but you can filter to song
-        # If we filter to songs, we see a tabular view- 4 cols
-        # result #, title, album, and duration
-        # title actually shows the artist and art as well
-        # TODO: Connect to the song's audio
-        # Even though the goal is to help listeners
-        # understand audio features of songs, double
-        # checking the song's audio is super pertinent
         self.result_0_h_layout = QHBoxLayout()
         self.result_0_h_layout.addWidget(label)
         self.result_0_h_layout.addWidget(query_result_button)
         self.v_layout.addLayout(self.result_0_h_layout)
-
-    def printtt(self):
-        print("You made it this far!")
 
     def _show_track_features(self, features):
         self.danceability_value_label.setText(str(features["danceability"]))

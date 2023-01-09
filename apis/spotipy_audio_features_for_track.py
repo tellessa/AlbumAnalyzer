@@ -92,9 +92,19 @@ def _search(sp, q, type=None):
         track_uri: str = track["uri"]
         track_id: str = track["id"]
         album_art_url: str = track["album"]["images"][0]["url"]
+        track_url = track["external_urls"]["spotify"]
+        track_preview_url = track["preview_url"]
+        track_popularity = track["popularity"]
+
         fields_of_interest["name"] = track_name
         fields_of_interest["artists"] = combined_artists_name
         fields_of_interest["album art url"] = album_art_url
+        fields_of_interest["uri"] = track_uri
+        fields_of_interest["id"] = track_id
+        fields_of_interest["url"] = track_url
+        # begins playing on opening
+        fields_of_interest["preview url"] = track_preview_url
+        fields_of_interest["popularity"] = track_popularity
 
     else:
         fields_of_interest = sp.search(q, type=type)
@@ -157,7 +167,14 @@ def search(q, type=None):
     return _search(sp, q, type=type)
 
 
+def get_available_devices(sp):
+    """returns a 404 for invalid user"""
+    devices = sp.devices()
+    print(devices)
+
+
 if __name__ == "__main__":
     # get_album_features()
     # search_results = _search(sp, "Have Yourself A Merry Little Christmas")
     search_results = _search(sp, "Tim McGraw", type="track")
+    # available_devices = get_available_devices(sp)
