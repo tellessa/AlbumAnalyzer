@@ -5,6 +5,8 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 
+# works 12/31/2022
+
 
 def auth_and_get_audio_analysis(track_id):
     sp = _get_spotify_using_client_credentials()
