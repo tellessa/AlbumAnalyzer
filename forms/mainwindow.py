@@ -10,6 +10,7 @@ class Widget(QWidget):
         super().__init__()
 
         self.setWindowTitle("Spotify Audio Features")
+        # self.db_connect_btn = QPushButton("DB Connection")
 
         # A set of signals we can connect to
         label = QLabel("Track URI : ")
@@ -30,6 +31,7 @@ class Widget(QWidget):
         h_layout = QHBoxLayout()
         h_layout.addWidget(label)
         h_layout.addWidget(self.line_edit)
+        # h_layout.addWidget(self.db_connect_btn)
 
         self.v_layout = QVBoxLayout()
         self.v_layout.addLayout(h_layout)
@@ -135,7 +137,10 @@ class Widget(QWidget):
         duration_s = int(duration_ms / 1000)
         minutes = duration_s // 60
         seconds_leftover = duration_s % 60
-        formatted_duration = f"{minutes}:{seconds_leftover}"
+        if seconds_leftover < 10:
+            formatted_duration = f"{minutes}:0{seconds_leftover}"
+        else:
+            formatted_duration = f"{minutes}:{seconds_leftover}"
         return formatted_duration
 
     # Slots
