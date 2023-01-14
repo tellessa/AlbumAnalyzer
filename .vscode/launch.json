@@ -16,10 +16,10 @@
             "justMyCode": true
         },
         {
-            "name": "Python: main",
+            "name": "Python: main_ui",
             "type": "python",
             "request": "launch",
-            "program": "main.py",
+            "program": "main_ui.py",
             "console": "integratedTerminal",
             "justMyCode": true
         },
