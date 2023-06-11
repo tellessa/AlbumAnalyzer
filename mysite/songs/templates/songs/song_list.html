@@ -1,0 +1,18 @@
+{% extends "base_bootstrap.html" %} {% block content %}
+<h1>Song List</h1>
+{% if song_list %}
+<ul>
+  {% for song in song_list %}
+  <li>
+    {{ song.name }} (<a href="{% url 'songs:song_update' song.id %}">Update</a>
+    | <a href="{% url 'songs:song_delete' song.id %}">Delete</a>) <br />
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>There are no songs in the library.</p>
+{% endif %}
+<p>
+  <a href="{% url 'songs:song_create' %}">Add a song</a>
+</p>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "base_bootstrap.html" %} {% block content %}
+  <head>
+    <meta charset="utf-8" />
+    <title>API Display</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" placeholder="Search.." name="search"
+      {% if search %} value="{{ search }}" {% endif %}
+      >
+      <button type="submit"><i class="fa fa-search"></i></button>
+    <a href="{% url 'songs:all' %}"><i class="fa fa-undo"></i></a>
+    </form>
+    <h1>List of Track Features</h1>
+    <table>
+      <tr>
+        <td>danceability</td>
+        <td>{{track_features.danceability}}</td>
+      </tr>
+      <tr>
+        <td>energy</td>
+        <td>{{track_features.energy}}</td>
+      </tr>
+      <tr>
+        <td>key</td>
+        <td>{{track_features.key}}</td>
+      </tr>
+      <tr>
+        <td>loudness</td>
+        <td>{{track_features.loudness}}</td>
+      </tr>
+      <tr>
+        <td>speechiness</td>
+        <td>{{track_features.speechiness}}</td>
+      </tr>
+      <tr>
+        <td>acousticness</td>
+        <td>{{track_features.acousticness}}</td>
+      </tr>
+      <tr>
+        <td>instrumentalness</td>
+        <td>{{track_features.instrumentalness}}</td>
+      </tr>
+      <tr>
+        <td>liveness</td>
+        <td>{{track_features.liveness}}</td>
+      </tr>
+      <tr>
+        <td>valence</td>
+        <td>{{track_features.valence}}</td>
+      </tr>
+      <tr>
+        <td>tempo</td>
+        <td>{{track_features.tempo}}</td>
+      </tr>
+      <tr>
+        <td>type</td>
+        <td>{{track_features.type}}</td>
+      </tr>
+      <tr>
+        <td>uri</td>
+        <td>{{track_features.uri}}</td>
+      </tr>
+      <tr>
+        <td>track_href</td>
+        <td>{{track_features.track_href}}</td>
+      </tr>
+      <tr>
+        <td>analysis_url</td>
+        <td>{{track_features.analysis_url}}</td>
+      </tr>
+    </table>
+    <!-- <li>energy: {{track_features.energy}}</li>
+      <li>key: {{track_features.key}}</li>
+      <li>loudness: {{track_features.loudness}}</li>
+      <li>mode: {{track_features.mode}}</li>
+      <li>speechiness: {{track_features.speechiness}}</li>
+      <li>acousticness: {{track_features.acousticness}}</li>
+      <li>instrumentalness: {{track_features.instrumentalness}}</li>
+      <li>liveness: {{track_features.liveness}}</li>
+      <li>valence: {{track_features.valence}}</li>
+      <li>tempo: {{track_features.tempo}}</li>
+      <li>type: {{track_features.type}}</li>
+      <li>id: {{track_features.id}}</li>
+      <li>uri: {{track_features.uri}}</li>
+      <li>track_href: {{track_features.track_href}}</li>
+      <li>analysis_url: {{track_features.analysis_url}}</li>
+      <li>duration_ms: {{track_features.duration_ms}}</li>
+      <li>duration_formatted: {{track_features.duration_formatted}}</li>
+      <li>time_signature: {{track_features.time_signature}}</li> -->
+    <!-- <ol>
+      <li>danceability: {{track_features.danceability}}</li>
+      <li>energy: {{track_features.energy}}</li>
+      <li>key: {{track_features.key}}</li>
+      <li>loudness: {{track_features.loudness}}</li>
+      <li>mode: {{track_features.mode}}</li>
+      <li>speechiness: {{track_features.speechiness}}</li>
+      <li>acousticness: {{track_features.acousticness}}</li>
+      <li>instrumentalness: {{track_features.instrumentalness}}</li>
+      <li>liveness: {{track_features.liveness}}</li>
+      <li>valence: {{track_features.valence}}</li>
+      <li>tempo: {{track_features.tempo}}</li>
+      <li>type: {{track_features.type}}</li>
+      <li>id: {{track_features.id}}</li>
+      <li>uri: {{track_features.uri}}</li>
+      <li>track_href: {{track_features.track_href}}</li>
+      <li>analysis_url: {{track_features.analysis_url}}</li>
+      <li>duration_ms: {{track_features.duration_ms}}</li>
+      <li>duration_formatted: {{track_features.duration_formatted}}</li>
+      <li>time_signature: {{track_features.time_signature}}</li>
+    </ol> -->
+  </body>
+{% endblock %}

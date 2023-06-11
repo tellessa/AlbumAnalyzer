@@ -1,0 +1,90 @@
+{% extends "base_bootstrap.html" %} {% block content %}
+  <head>
+    <meta charset="utf-8" />
+    <title>API Display</title>
+  </head>
+  <body style="text-align: center">
+    <form>
+      <input type="text" placeholder="Search..." name="search"
+      {% if search %} value="{{ search }}" {% endif %}
+      >
+      <button type="submit"><i class="fa fa-search"></i></button>
+    <a href="{% url 'songs:all' %}"><i class="fa fa-undo"></i></a>
+    </form>
+    <h1>Search Results for Track {{ search }}</h1>
+    <div class="track_option">
+        <p>Track Name: {{match.name}}</p>
+        <p><img src={{img_source}} alt="Image for "{{match.album.name}} width="200" height="200"></a></p>
+        <p style="text-align: center">
+          <video controls="" name="media">
+            <source src={{match.preview_url}} type="audio/mpeg">
+          </video>
+        </p>
+        {% comment %} TODO: use the uri to get the audio analysis {% endcomment %}
+        {% comment %}<p>URI</p><p>{{match.uri}}</p> {% endcomment %}
+        <p>Artist: {{match.artists.0.name}}</p>
+        {% comment %} TODO: show an image of the artist {% endcomment %}
+        <p>Album: {{match.album.name}}</p>
+        <p>Release Date: {{match.album.release_date}}</p>
+    </div>
+    <h1>List of Track Features</h1>
+        <table>
+          <tr>
+            <td>danceability</td>
+            <td>{{track_features.danceability}}</td>
+          </tr>
+          <tr>
+            <td>energy</td>
+            <td>{{track_features.energy}}</td>
+          </tr>
+          <tr>
+            <td>key</td>
+            <td>{{track_features.key}}</td>
+          </tr>
+          <tr>
+            <td>loudness</td>
+            <td>{{track_features.loudness}}</td>
+          </tr>
+          <tr>
+            <td>speechiness</td>
+            <td>{{track_features.speechiness}}</td>
+          </tr>
+          <tr>
+            <td>acousticness</td>
+            <td>{{track_features.acousticness}}</td>
+          </tr>
+          <tr>
+            <td>instrumentalness</td>
+            <td>{{track_features.instrumentalness}}</td>
+          </tr>
+          <tr>
+            <td>liveness</td>
+            <td>{{track_features.liveness}}</td>
+          </tr>
+          <tr>
+            <td>valence</td>
+            <td>{{track_features.valence}}</td>
+          </tr>
+          <tr>
+            <td>tempo</td>
+            <td>{{track_features.tempo}}</td>
+          </tr>
+          <tr>
+            <td>type</td>
+            <td>{{track_features.type}}</td>
+          </tr>
+          <tr>
+            <td>uri</td>
+            <td>{{track_features.uri}}</td>
+          </tr>
+          <tr>
+            <td>track_href</td>
+            <td>{{track_features.track_href}}</td>
+          </tr>
+          <tr>
+            <td>analysis_url</td>
+            <td>{{track_features.analysis_url}}</td>
+          </tr>
+        </table>
+  </body>
+{% endblock %}
