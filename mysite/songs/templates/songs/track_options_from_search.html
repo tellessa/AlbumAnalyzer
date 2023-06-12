@@ -1,9 +1,9 @@
 {% extends "base_bootstrap.html" %} {% block content %}
   <head>
     <meta charset="utf-8" />
-    <title>API Display</title>
+    <title>Songs: Search Track</title>
   </head>
-  <body style="text-align: center">
+  <body>
     <form>
       <input type="text" placeholder="Search..." name="search"
       {% if search %} value="{{ search }}" {% endif %}
@@ -28,6 +28,7 @@
         <p>Release Date: {{match.album.release_date}}</p>
     </div>
     <h1>List of Track Features</h1>
+      <div id="table-holder">
         <table>
           <tr>
             <td>danceability</td>
@@ -69,22 +70,8 @@
             <td>tempo</td>
             <td>{{track_features.tempo}}</td>
           </tr>
-          <tr>
-            <td>type</td>
-            <td>{{track_features.type}}</td>
-          </tr>
-          <tr>
-            <td>uri</td>
-            <td>{{track_features.uri}}</td>
-          </tr>
-          <tr>
-            <td>track_href</td>
-            <td>{{track_features.track_href}}</td>
-          </tr>
-          <tr>
-            <td>analysis_url</td>
-            <td>{{track_features.analysis_url}}</td>
-          </tr>
+
         </table>
+      </div>
   </body>
 {% endblock %}
