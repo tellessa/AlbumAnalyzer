@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Django Songs App ",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\mysite\\manage.py",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "justMyCode": true
+        },
+        {
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
