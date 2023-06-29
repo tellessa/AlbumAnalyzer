@@ -20,7 +20,7 @@ def track_options_from_search(request):
     # 7pYX4pGboc1Fvwd0MinOFD
     # What Side of Love by Parachute
     # 6SwBFQFjgwdYomUy6kLTrH
-    query_string = request.GET.get('search', 'The Jesus Way')
+    query_string = request.GET.get('search', 'Lean on Me Withers')
 
     matches: list = get_top_song_matches(query_string)
 
@@ -38,6 +38,7 @@ def track_options_from_search(request):
     # favorite song analyses to the database
     # TODO: Use Dj4e owned rows to allow users to save different analyses to their account
     return render(request, 'songs/track_options_from_search.html', context)
+
 
 def audio_features(request):
     # TODO: turn into CBV and make get track features a method
