@@ -1,5 +1,9 @@
 {% extends "base_bootstrap.html" %} {% block content %}
 <h1>Song List</h1>
+<br />
+<a href="{% url 'songs:audio_features' %}">Search for a Song</a>
+<br />
+<br />
 {% if song_list %}
 <ul>
   {% for song in song_list %}
