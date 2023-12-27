@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+# Using the built-in generics
+# https://docs.djangoproject.com/en/4.2/topics/class-based-views/generic-display/
+from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import View
 from django.urls import reverse_lazy
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 
 from songs import spotipy_audio_features_for_track
 
@@ -24,37 +27,31 @@ def track_options_from_search(request):
 
     matches: list = get_top_song_matches(query_string)
 
-    first_match: dict = matches[0]
+    match: dict = matches[0]
     top_two = matches[0:2]
     matches = top_two
-    top_match_uri = first_match['uri']
+    top_match_uri = match['uri']
     track_features: dict = get_track_features(top_match_uri)
+
     context = {
-        'match': first_match,
-        'img_source': first_match['album']['images'][0]['url'],
-        'track_features': track_features
+        "match": match,
+        # Anything with a space gets cut after the first space for some reason, so I convert spaces to underscores and back to spaces later
+        "name": match["name"].replace(" ", "_"),
+        "img_source": match["album"]["images"][0]["url"],
+        "track_features": track_features,
     }
-    # TODO: give the user a button that will save their
-    # favorite song analyses to the database
     # TODO: Use Dj4e owned rows to allow users to save different analyses to their account
     return render(request, 'songs/track_options_from_search.html', context)
 
 
 def audio_features(request):
-    # TODO: turn into CBV and make get track features a method
-    # Sway by Callum J. Wright
-    # 7pYX4pGboc1Fvwd0MinOFD
-    # What Side of Love by Parachute
-    # 6SwBFQFjgwdYomUy6kLTrH
+
     query_string = request.GET.get('search', '6Rskc4RUqPgmcxkQic0a5G')
     track_uri = f'spotify:track:{query_string}'
     track_features: dict = get_track_features(track_uri)
     context = {
         'track_features': track_features
     }
-    # TODO: display the image
-    # TODO: give the user a button that will save their
-    # favorite song analyses to the database
     # TODO: Use Dj4e owned rows to allow users to save different analyses to their account
     return render(request, 'songs/audio_features.html', context)
 
@@ -99,3 +96,38 @@ class SongDelete(LoginRequiredMixin, DeleteView):
     model = Song
     fields = '__all__'
     success_url = reverse_lazy('songs:all')
+
+
+class SongListView(generic.ListView):
+    model = Song
+
+
+def add_to_favorites(request, *args, **kwargs):
+    """This is working to accept data from the previous request and to create new song objects in the db!
+    What a journey it's been trying to figure that out!"""
+    # Access data from the request.POST dictionary
+    # Create the song object
+    song_to_save = Song.objects.create(
+        name=request.POST.get('name').replace("_", " "),
+        danceability=request.POST.get("danceability", 0),
+        energy=request.POST.get("energy", 0),
+        key=request.POST.get("key", "N/A"),
+        loudness= request.POST.get("loudness", 0),
+        mode=request.POST.get("mode", 0),
+        speechiness=request.POST.get("speechiness", 0),
+        acousticness=request.POST.get("acousticness", 0),
+        instrumentalness=request.POST.get("instrumentalness", 0),
+        liveness=request.POST.get("liveness", 0),
+        valence= request.POST.get("valence", 0),
+        tempo=request.POST.get("tempo", 0),
+        spotify_id=request.POST.get("id", 0),
+        uri=request.POST.get("uri", "example.com"),
+        track_href=request.POST.get("track_href", "N/A"),
+        analysis_url=request.POST.get("analysis_url", "N/A"),
+        duration_in_ms=request.POST.get("duration_ms", "N/A"),
+        time_signature=request.POST.get("time_signature", "N/A")
+        # TODO: consider including popularity
+    )
+    song_to_save.save()
+
+    return HttpResponseRedirect(reverse_lazy('songs:all'))
