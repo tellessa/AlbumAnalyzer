@@ -137,21 +137,91 @@ def add_to_favorites(request, *args, **kwargs):
 
 
 def analyze(request):
-    """
-    Initialize the Axis for graphs, X-Axis is months,
-    Y-axis is books read
-    """
     songs = Song.objects.all()
     song_titles = [song.name for song in songs]
     danceability_list = [0 for _ in range(len(songs))]
     # Set the value for song danceability on Y-Axis
     for idx, song in enumerate(songs):
         danceability_list[idx] = song.danceability
+    scatter = graphs.Scatter(x=song_titles, y=danceability_list)
     # Generate a scatter plot HTML
     figure = graphs.Figure()
-    scatter = graphs.Scatter(x=song_titles, y=danceability_list)
     figure.add_trace(scatter)
     figure.update_layout(xaxis_title="Song", yaxis_title="Danceability")
+
     plot_html = plot(figure, output_type='div')
 
     return render(request, 'songs/analyze.html', {'danceability_list_plot': plot_html})
+
+
+def analyze_keys(request):
+    songs = Song.objects.all()
+    song_names = [song.name for song in songs]
+    keys = []
+    # Set the value for song danceability on Y-Axis
+    for idx, song in enumerate(songs):
+        keys.append(song.key)
+
+    # A list of alphabetical representations of musical keys, starting at C and ending at B.
+    # I want my y axis to appear in this order
+    possible_keys = spotipy_audio_features_for_track.KEYS
+
+    # features["key"] = KEYS[features["key"]]
+
+    y_axis_ticks = [possible_keys.index(key) for key in keys]
+
+    # Create the scatter plot
+    fig = graphs.Figure(data=graphs.Scatter(
+    x=song_names,
+    y=y_axis_ticks,  # Map keys to their indices in possible_keys
+    # mode='markers',
+    marker=dict(
+        size=15,
+        color='blue',
+        symbol='circle'
+    )
+    ))
+
+    # Customize the layout
+    fig.update_layout(
+    title="Musical Keys of My Songs",
+    xaxis_title="Song Name",
+    yaxis_title="Key",
+    yaxis=dict(
+        tickvals=list(range(len(possible_keys))),
+        ticktext=possible_keys,
+    ),
+    font=dict(
+        family="Arial",
+        size=12
+    )
+    )
+
+    # Generate a scatter plot HTML
+    plot_html = plot(fig, output_type='div')
+
+    return render(request, 'songs/analyze_keys.html', {'danceability_list_plot': plot_html})
+
+class AddToFavorites(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        # new_song = Song(1, "song", 0.0, 0.0, "a", 0.0, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 120.0, "abc",
+        #                 "https://www.url.com", "https://www.analysis.com", 300000, 3)
+        if args:
+            artist = args[0]
+        new_song = Song(3, "song3", 0.0, 0.0, "a", 0.0, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 120.0, "abc",
+                        "https://www.url.com", "https://www.analysis.com", 300000, 3)
+        songs = Song.objects.all()
+        new_song.save()
+        return HttpResponseRedirect(reverse_lazy('songs:all'))
+
+    def post(self, request, *args, **kwargs):
+        # new_song = Song()
+        # new_song.save()
+        # return HttpResponseRedirect(reverse_lazy('songs:all'))
+        if args:
+            artist = args[0]
+        new_song = Song(3, "song3", 0.0, 0.0, "a", 0.0, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 120.0, "abc",
+                        "https://www.url.com", "https://www.analysis.com", 300000, 3)
+        songs = Song.objects.all()
+        new_song.save()
+        return HttpResponseRedirect(reverse_lazy('songs:all'))
