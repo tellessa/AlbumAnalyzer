@@ -12,6 +12,9 @@ from songs import spotipy_audio_features_for_track
 
 from songs.models import Song
 
+from plotly.offline import plot
+import plotly.graph_objects as graphs
+
 
 def react_example(request):
     return render(request, "songs/react-example.html")
@@ -131,3 +134,24 @@ def add_to_favorites(request, *args, **kwargs):
     song_to_save.save()
 
     return HttpResponseRedirect(reverse_lazy('songs:all'))
+
+
+def analyze(request):
+    """
+    Initialize the Axis for graphs, X-Axis is months,
+    Y-axis is books read
+    """
+    songs = Song.objects.all()
+    song_titles = [song.name for song in songs]
+    danceability_list = [0 for _ in range(len(songs))]
+    # Set the value for song danceability on Y-Axis
+    for idx, song in enumerate(songs):
+        danceability_list[idx] = song.danceability
+    # Generate a scatter plot HTML
+    figure = graphs.Figure()
+    scatter = graphs.Scatter(x=song_titles, y=danceability_list)
+    figure.add_trace(scatter)
+    figure.update_layout(xaxis_title="Song", yaxis_title="Danceability")
+    plot_html = plot(figure, output_type='div')
+
+    return render(request, 'songs/analyze.html', {'danceability_list_plot': plot_html})
