@@ -14,7 +14,7 @@ from gensim.corpora.dictionary import Dictionary
 # Negative values: Words that are less characteristic of the topic or might even have an opposing meaning. They are less likely to appear in documents associated with that topic.
 # Relative Importance: The relative magnitudes of the numbers within a topic help you understand the relative importance of different words in defining that topic. Words with higher absolute values are generally more important in characterizing the topic than those with lower values.
 
-def main():
+def topic_modeling_view():
     # TODO: pull the lyrics from lyricsgenius or another api, once you provide the title.
     lyrics = """
     Mist hangs above hills
@@ -72,9 +72,13 @@ def main():
         for sample in stripped:
             sample_split = sample.split("*")
             weight = float(sample_split[0])
-            word = sample_split[1]  # but without the double quotes
+            word = sample_split[1]
+            # remove the double quotes
             stripped_word = word.replace('"', '')
-            cleaned_data.append((i, stripped_word, weight))
+            # Correct the index for non-technical readability
+            row = (i + 1, stripped_word, weight)
+            cleaned_data.append(row)
+            print(row)
     print()
 
 def preprocess_text(text):
@@ -93,4 +97,4 @@ def preprocess_text(text):
 #         print(word)
 
 if __name__ == "__main__":
-    main()
+    topic_modeling_view()

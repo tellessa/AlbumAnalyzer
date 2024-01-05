@@ -9,6 +9,7 @@ urlpatterns = [
     path('add_to_favorites/', views.add_to_favorites, name='song_favorite'),
     path('analyze/', views.analyze, name='song_analyze'),
     path('analyze_keys/', views.analyze_keys, name='song_analyze_keys'),
+    path('topic_modeling/', views.topic_modeling_view, name='song_topic_modeling'),
     path('add_to_favorites_cbv/', views.AddToFavorites.as_view(), name='add_to_favorites_name'),
     path('main/create/', views.SongCreate.as_view(), name='song_create'),
     path('main/<int:pk>/update/', views.SongUpdate.as_view(), name='song_update'),

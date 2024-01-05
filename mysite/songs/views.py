@@ -1,3 +1,8 @@
+import nltk
+from gensim.models import LdaModel
+from gensim.corpora.dictionary import Dictionary
+
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Using the built-in generics
 # https://docs.djangoproject.com/en/4.2/topics/class-based-views/generic-display/
@@ -225,3 +230,78 @@ class AddToFavorites(LoginRequiredMixin, View):
         songs = Song.objects.all()
         new_song.save()
         return HttpResponseRedirect(reverse_lazy('songs:all'))
+
+
+def topic_modeling_view(request):
+    # TODO: pull the lyrics from lyricsgenius or another api, once you provide the title.
+    lyrics = """
+    Mist hangs above hills
+    Above mist hangs stone face of mountain
+    Above mountain face hangs a net of sky --
+    Crack! there are wings and they rip the net!
+    And the dance flows on
+    Everything flows toward the rim of that
+    Shining cup
+
+    Crossed sticks lie on earth
+    Between crossed sticks -- pile of ash
+    Something rises on the wisp of smoke
+    Dog's feet move by fast
+    And the dance flows on
+    Everything flows toward the rim of that
+    Shining cup
+
+    Through these channels/words
+    I want to touch you
+    Touch you deep down
+    Where you live
+    Not for power but
+    Because I love you
+    So
+    Love the Lord
+    And in Him love me too
+    And in Him go your way
+    And I'll be right there with you
+    Leaving
+    No footprints when we go
+    No footprints when we go
+    Only where we've been, a faint and fading glow...
+    """
+
+    lyrics_lines = lyrics.split("\n")
+    processed_lyrics = [preprocess_text(lyric) for lyric in lyrics_lines]
+    dictionary = Dictionary(processed_lyrics)
+    corpus = [dictionary.doc2bow(doc) for doc in processed_lyrics]
+    lda_model = LdaModel(corpus, id2word=dictionary, num_topics=3)
+    topics: list = lda_model.print_topics(num_words=5)
+    cleaned_data: list[tuple] = []
+
+    for i, topic in enumerate(topics):
+        # topic_a: tuple[int, str] = topics[0]
+        weights_and_words: str = topic[1]
+        as_list = weights_and_words.split("+")
+        stripped = [i.rstrip().lstrip() for i in as_list]
+
+        for sample in stripped:
+            sample_split = sample.split("*")
+            weight = float(sample_split[0])
+            word = sample_split[1]
+            # remove the double quotes
+            stripped_word = word.replace('"', '')
+            # Correct the index for non-technical readability
+            # row = (i + 1, stripped_word, weight)
+            row = (stripped_word, weight)
+            cleaned_data.append(row)
+            print(row)
+    return render(request, 'songs/track_details.html', {'data': cleaned_data})
+    print()
+
+def preprocess_text(text):
+    text = text.lower()  # convert to lowercase
+    tokens = nltk.word_tokenize(text)  # tokenize sentences
+    tokens = [t for t in tokens if t.isalpha()]  # remove punctuation
+    lemmatizer = nltk.WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(t) for t in tokens]  # lemmatize words
+    stopwords = nltk.corpus.stopwords.words("english")  # remove stopwords
+    tokens = [t for t in tokens if t not in stopwords]
+    return tokens
