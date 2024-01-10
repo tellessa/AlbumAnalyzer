@@ -16,5 +16,6 @@ urlpatterns = [
     path('main/<int:pk>/delete/', views.SongDelete.as_view(), name='song_delete'),
     path('audio_features/', views.audio_features, name='audio_features'),
     path('track_options_from_search/', views.track_options_from_search, name='audio_features'),
+    path('album_options_from_search/', views.album_options_from_search, name='album_analysis'),
     path('react-example/', views.react_example)
 ]

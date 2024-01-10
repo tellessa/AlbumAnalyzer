@@ -20,9 +20,76 @@ from songs.models import Song
 from plotly.offline import plot
 import plotly.graph_objects as graphs
 
+from songs.spotipy_audio_features_for_track import sp
 
 def react_example(request):
     return render(request, "songs/react-example.html")
+
+
+def album_options_from_search(request):
+    query_string = request.GET.get('search', 'The Beautiful Letdown Switchfoot')
+
+    matches: list = get_top_album_matches(query_string)
+    # matches = matches[0:5]
+    match: dict = matches[0]
+
+    match_uri = match['uri']
+    tracks = sp.album_tracks(match_uri)["items"]
+    album_track_features: list = []
+    for track in tracks:
+        track_uri = track['uri']
+        track_features: dict = get_track_features(track_uri)
+        album_track_features.append(track_features)
+
+    song_names = [track["name"] for track in tracks]
+    # keys = [feature_set["key"] for feature_set in album_track_features]
+    keys = []
+    # Set the value for song danceability on Y-Axis
+    # Don't have song objects per se, but we could, even without needing to save them to the db.
+    for idx, feature_set in enumerate(album_track_features):
+        keys.append(feature_set["key"])
+
+    # A list of alphabetical representations of musical keys, starting at C and ending at B.
+    # I want my y axis to appear in this order
+    possible_keys = spotipy_audio_features_for_track.KEYS
+
+    y_axis_ticks = [possible_keys.index(key) for key in keys]
+
+    # Create the scatter plot
+    fig = graphs.Figure(data=graphs.Scatter(
+    x=song_names,
+    y=y_axis_ticks,  # Map keys to their indices in possible_keys
+    # mode='markers',
+    marker=dict(
+        size=15,
+        color='blue',
+        symbol='circle'
+    )
+    ))
+
+    # Customize the layout
+    fig.update_layout(
+    title="Musical Keys of My Songs",
+    xaxis_title="Song Name",
+    yaxis_title="Key",
+    yaxis=dict(
+        tickvals=list(range(len(possible_keys))),
+        ticktext=possible_keys,
+    ),
+    font=dict(
+        family="Arial",
+        size=12
+    )
+    )
+
+    # Generate a scatter plot HTML
+    plot_html = plot(fig, output_type='div')
+
+    return render(request, 'songs/analyze_keys_full_album.html', {'danceability_list_plot': plot_html})
+    # img_source = match["album"]["images"][0]["url"]
+    # match_tuples.append((top_match_uri, name, img_source))
+
+    return render(request, 'songs/album_search_results.html', context)
 
 
 def track_options_from_search(request):
@@ -34,22 +101,30 @@ def track_options_from_search(request):
     query_string = request.GET.get('search', 'Lean on Me Withers')
 
     matches: list = get_top_song_matches(query_string)
+    matches = matches[0:5]
 
+    # One option: add more info to this dictionary
     match: dict = matches[0]
-    top_two = matches[0:2]
-    matches = top_two
-    top_match_uri = match['uri']
-    track_features: dict = get_track_features(top_match_uri)
+
+
+    # match_tuples = []
+    for i, match in enumerate(matches):
+        top_match_uri = match['uri']
+        track_features: dict = get_track_features(top_match_uri)
+        match["track_features"] = track_features
+        # Anything with a space gets cut after the first space for some reason, so I convert spaces to underscores and back to spaces later
+        match["name"] = match["name"].replace(" ", "_")
+        # img_source = match["album"]["images"][0]["url"]
+        # match_tuples.append((top_match_uri, name, img_source))
 
     context = {
-        "match": match,
-        # Anything with a space gets cut after the first space for some reason, so I convert spaces to underscores and back to spaces later
-        "name": match["name"].replace(" ", "_"),
-        "img_source": match["album"]["images"][0]["url"],
-        "track_features": track_features,
+        # One of these for each match
+        # "matches": match_tuples,
+        "matches": matches,
     }
     # TODO: Use Dj4e owned rows to allow users to save different analyses to their account
-    return render(request, 'songs/track_options_from_search.html', context)
+    # return render(request, 'songs/track_options_from_search.html', context)
+    return render(request, 'songs/track_search_results.html', context)
 
 
 def audio_features(request):
@@ -71,7 +146,19 @@ def get_top_song_matches(track_search_term_from_user: str):
     # if len(items) > 0:
     # artist = items[0]
     # print(artist['name'], artist['images'][0]['url'])
+    # Here we limit it to the tracks that were returned by the query
     matches = spotipy_audio_features_for_track.search(track_search_term_from_user)['tracks']['items']
+    return matches
+
+def get_top_album_matches(track_search_term_from_user: str):
+    # Example from spotipy docs;
+    # results = spotify.search(q='artist:' + name, type='artist')
+    # items = results['artists']['items']
+    # if len(items) > 0:
+    # artist = items[0]
+    # print(artist['name'], artist['images'][0]['url'])
+    # Here we limit it to the tracks that were returned by the query
+    matches = spotipy_audio_features_for_track.search(track_search_term_from_user, type="album")["albums"]["items"]
     return matches
 
 
