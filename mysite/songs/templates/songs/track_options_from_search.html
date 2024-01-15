@@ -1,21 +1,10 @@
-{% extends "base_bootstrap.html" %}
+{% extends "songs/base_menu.html" %}
 {% block content %}
   <head>
     <meta charset="utf-8" />
     <title>Songs: Search Track</title>
   </head>
   <body>
-    <br />
-    <a href="{% url 'songs:all' %}">See Favorites</a>
-    <br />
-    <br />
-    <a href="{% url 'songs:song_analyze' %}">Analyze Song Danceability</a>
-    <br />
-    <br />
-    <a href="{% url 'songs:song_analyze_keys' %}">Analyze Song Keys</a>
-    <br />
-    <br />
-    <a href="{% url 'songs:song_topic_modeling' %}">Analyze Song Lyrics</a>
     <br />
     <form>
       <input type="text" placeholder="Search..." name="search"
@@ -25,74 +14,56 @@
     <a href="{% url 'songs:all' %}"><i class="fa fa-undo"></i></a>
     </form>
     <h1>Search Results for Track {{ search }}</h1>
-    <div class="track_option">
-      <form action="{% url 'songs:song_favorite' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="name" value= {{ name }}>
-        {% for key, value in track_features.items %}
-          <input type="hidden" name="{{ key }}" value="{{ value }}">
-        {% endfor %}
-        <button type="submit">Add to Favorites</button>
-      </form>
-        <p>Track Name: {{match.name}}</p>
-        <p><img src={{img_source}} alt="Image for "{{match.album.name}} width="200" height="200"></a></p>
-        <p style="text-align: center">
-          <video controls="" name="media">
-            <source src={{match.preview_url}} type="audio/mpeg">
-          </video>
-        </p>
-        {% comment %} TODO: use the uri to get the audio analysis {% endcomment %}
-        {% comment %}<p>URI</p><p>{{match.uri}}</p> {% endcomment %}
-        <p>Artist: {{match.artists.0.name}}</p>
-        {% comment %} TODO: show an image of the artist {% endcomment %}
-        <p>Album: {{match.album.name}}</p>
-        <p>Release Date: {{match.album.release_date}}</p>
-    </div>
-    <h1>Track Features</h1>
-      <div id="table-holder">
-        <table style="font-weight: bold;">
+    <table>
+      <thead>
           <tr>
-            <td style="padding: 2px 10px;">Danceability</td>
-            <td>{{track_features.danceability}}</td>
+              <th></th>
+              <th>Title</th>
+              <th>Album</th>
+              <th>Release Date</th>
+              <th></th>
           </tr>
+      </thead>
+      <tbody>
+          {% for match in matches %}
           <tr>
-            <td style="padding: 2px 10px;">Energy</td>
-            <td>{{track_features.energy}}</td>
+            <td>
+              <p style="text-align: center">
+                <video controls="" name="media">
+                  <source src={{match.preview_url}} type="audio/mpeg">
+                </video>
+              </p>
+            </td>
+            <td>
+              <p><img
+                class="search_album_cover"
+                src={{match.album.images.0.url}}
+                alt="Image for "{{match.album.name}}
+                style="width:50px;height:50px;border-radius:5%;box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);"
+                >
+              </a></p>
+              <p><b>{{match.name}}</b></p>
+              <p>{{match.artists.0.name}}</p>
+            </td>
+            <td>
+              <p>{{match.album.name}}</p>
+            </td>
+            <td>
+              {{match.album.release_date}}
+            </td>
+            <td>
+              <form action="{% url 'songs:song_favorite' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="name" value= {{ match.name }}>
+                {% for key, value in match.track_features.items %}
+                  <input type="hidden" name="{{ key }}" value="{{ value }}">
+                {% endfor %}
+                <button type="submit">Save for Analysis</button>
+              </form>
+            </td>
           </tr>
-          <tr>
-            <td style="padding: 2px 10px;">Key</td>
-            <td>{{track_features.key}}</td>
-          </tr>
-          <tr>
-            <td style="padding: 2px 10px;">Loudness</td>
-            <td>{{track_features.loudness}}</td>
-          </tr>
-          <tr>
-            <td style="padding: 2px 10px;">Speechiness</td>
-            <td>{{track_features.speechiness}}</td>
-          </tr>
-          <tr>
-            <td style="padding: 2px 10px;">Acousticness</td>
-            <td>{{track_features.acousticness}}</td>
-          </tr>
-          <tr>
-            <td style="padding: 2px 10px">Instrumentalness</td>
-            <td>{{track_features.instrumentalness}}</td>
-          </tr>
-          <tr>
-            <td style="padding: 2px 10px;">Liveness</td>
-            <td>{{track_features.liveness}}</td>
-          </tr>
-          <tr>
-            <td style="padding: 2px 10px;">Valence</td>
-            <td>{{track_features.valence}}</td>
-          </tr>
-          <tr>
-            <td style="padding: 2px 10px;">Tempo</td>
-            <td>{{track_features.tempo}}</td>
-          </tr>
-
-        </table>
-      </div>
+          {% endfor %}
+      </tbody>
+  </table>
   </body>
 {% endblock %}
