@@ -12,7 +12,11 @@
       <button type="submit"><i class="fa fa-search"></i></button>
     <a href="{% url 'songs:album_options_from_search_name' %}"><i class="fa fa-undo"></i></a>
     </form>
-    <h1>Musical Key Analysis<br><b>{{ album_and_artist }}</b></h1>
+    <h1>Musical Key Analysis<br></h1>
+    {% autoescape off %}
+    {{ danceability_list_plot }}
+    {% endautoescape %}
+    <h2><b>{{ album_and_artist }}</b></h2>
     <p><img
       class="chosen_album_cover"
       src={{ album_art_link }}
@@ -23,8 +27,4 @@
     </div>
       </div>
     </body>
-
-    {% autoescape off %}
-        {{ danceability_list_plot }}
-    {% endautoescape %}
 {% endblock %}
