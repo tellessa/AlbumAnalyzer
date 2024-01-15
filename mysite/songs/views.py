@@ -26,14 +26,18 @@ def react_example(request):
     return render(request, "songs/react-example.html")
 
 
-def album_options_from_search(request):
+def analyze_album_keys(request):
     query_string = request.GET.get('search', 'The Beautiful Letdown Switchfoot')
 
     matches: list = get_top_album_matches(query_string)
     # matches = matches[0:5]
     match: dict = matches[0]
+    album_art_link = match["images"][0]["url"]
+    artists = match["artists"]
+    name = match["name"]
 
     match_uri = match['uri']
+    artist_title = ", ".join([artist["name"] for artist in artists])
     tracks = sp.album_tracks(match_uri)["items"]
     album_track_features: list = []
     for track in tracks:
@@ -69,7 +73,6 @@ def album_options_from_search(request):
 
     # Customize the layout
     fig.update_layout(
-    title="Musical Keys of My Songs",
     xaxis_title="Song Name",
     yaxis_title="Key",
     yaxis=dict(
@@ -84,28 +87,27 @@ def album_options_from_search(request):
 
     # Generate a scatter plot HTML
     plot_html = plot(fig, output_type='div')
-
-    return render(request, 'songs/analyze_keys_full_album.html', {'danceability_list_plot': plot_html})
+    context = {
+        'danceability_list_plot': plot_html,
+        'album_and_artist': f"{name} by {artist_title}",
+        'search': query_string,
+        'album_art_link': album_art_link,
+    }
+    return render(request, 'songs/analyze_keys_full_album.html', context)
     # img_source = match["album"]["images"][0]["url"]
     # match_tuples.append((top_match_uri, name, img_source))
 
+
+def album_options_from_search(request):
+    context = {}
     return render(request, 'songs/album_search_results.html', context)
 
-
 def track_options_from_search(request):
-    # TODO: turn into CBV
-    # Sway by Callum J. Wright
-    # 7pYX4pGboc1Fvwd0MinOFD
-    # What Side of Love by Parachute
-    # 6SwBFQFjgwdYomUy6kLTrH
     query_string = request.GET.get('search', 'Lean on Me Withers')
-
     matches: list = get_top_song_matches(query_string)
     matches = matches[0:5]
-
     # One option: add more info to this dictionary
     match: dict = matches[0]
-
 
     # match_tuples = []
     for i, match in enumerate(matches):
@@ -118,13 +120,12 @@ def track_options_from_search(request):
         # match_tuples.append((top_match_uri, name, img_source))
 
     context = {
-        # One of these for each match
         # "matches": match_tuples,
         "matches": matches,
     }
     # TODO: Use Dj4e owned rows to allow users to save different analyses to their account
     # return render(request, 'songs/track_options_from_search.html', context)
-    return render(request, 'songs/track_search_results.html', context)
+    return render(request, 'songs/track_options_from_search.html', context)
 
 
 def audio_features(request):

@@ -1,17 +1,5 @@
-{% extends "base_bootstrap.html" %} {% block content %}
-<h1>Song List</h1>
-<br />
-<a href="{% url 'songs:audio_features' %}">Search for a Song</a>
-<br />
-<br />
-<a href="{% url 'songs:song_analyze' %}">Analyze Song Danceability</a>
-<br />
-<br />
-<a href="{% url 'songs:song_analyze_keys' %}">Analyze Song Keys</a>
-<br />
-<br />
-<a href="{% url 'songs:album_analysis' %}">Analyze Song Keys for Album</a>
-<br />
+{% extends "songs/base_menu.html" %} {% block content %}
+<h1>Songs to Analyze</h1>
 <br />
 {% if song_list %}
 <ul>
@@ -24,8 +12,4 @@
 </ul>
 {% else %}
 <p>There are no songs in the library.</p>
-{% endif %}
-<p>
-  <a href="{% url 'songs:song_create' %}">Add a song</a>
-</p>
-{% endblock %}
+{% endif %} {% endblock %}
