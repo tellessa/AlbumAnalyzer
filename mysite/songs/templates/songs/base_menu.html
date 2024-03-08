@@ -1,4 +1,5 @@
 {% extends "base_bootstrap.html" %}
+{% load static %}
 {% block navbar %}
 {% comment %} {% load app_tags %} {% endcomment %}
 <nav class="navbar navbar-default navbar-inverse">
@@ -10,22 +11,34 @@
     <ul class="nav navbar-nav">
       {% url 'songs' as songs %}
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
-        <a href="{% url 'songs:all' %}">Songs</a></li>
-    <li {% if request.get_full_path == songs %}class="active"{% endif %}>
+        <img
+        {% comment %} class="img-fluid img-profile rounded-circle mx-auto mb-2" {% endcomment %}
+        src="{% static 'AlbumAnalyzer.jpg' %}"
+        alt="AlbumAnalyzer Logo"
+        style="width:50px;height:50px;border-radius:5%;box-shadow: 2px 52x 4px 1px rgba(0,0,0,.8);"
+        >
+    </li>
+    {% comment %} <li {% if request.get_full_path == songs %}class="active"{% endif %}>
+        <a href="{% url 'songs:all' %}">Songs</a>
+    </li> {% endcomment %}
+    {% comment %} <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a class="nav-link-songsapp" href="{% url 'songs:track_options_from_search_name' %}">Add a Song from the Spotify API</a>
-    </li>
-    <li {% if request.get_full_path == songs %}class="active"{% endif %}>
+    </li> {% endcomment %}
+    {% comment %} <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a href="{% url 'songs:song_create' %}">Add a Song Manually</a>
-    </li>
-    <li {% if request.get_full_path == songs %}class="active"{% endif %}>
+    </li> {% endcomment %}
+    {% comment %} <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a href="{% url 'songs:song_analyze_name' %}">Analyze Song Danceability</a>
-    </li>
+    </li> {% endcomment %}
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a href="{% url 'songs:album_options_from_search_name' %}">Analyze Song Keys for Album</a>
     </li>
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
+        <a href="{% url 'home' %}">View Portfolio</a>
+    </li>
+    {% comment %} <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a href="{% url 'songs:song_topic_modeling' %}">Analyze Song Lyrics</a>
-        </li>
+    </li> {% endcomment %}
     </ul>
     <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
