@@ -5,8 +5,6 @@ Whether you're an artist yourself or an avid music connoissuer, it can be fascin
 Perhaps you know how to play music by ear and want to add your own instrumentation as you play along with your favorite album from start to finish.
 AlbumAnalyzer makes this task easy by giving you a visual representation of the key of each song on an album.
 
-![alt text](image.png)
-
 It's simple, just type in the name of the album you want to analyze, and press the search (magnifying glass) icon to the right of your search term.
 AlbumAnalyzer takes your search term and outputs a graph which helps visualize the key of each track on the album.
 
