@@ -1,0 +1,11 @@
+{% extends "songs/base_menu.html" %} {% block content %}
+<head>
+  <meta charset="utf-8" />
+  <title>Songs: Search Track</title>
+</head>
+<body>
+  <br />
+  <h1>Favorites Analysis</h1>
+</body>
+{% autoescape off %} {{ danceability_list_plot }} {% endautoescape %}
+{%endblock%}

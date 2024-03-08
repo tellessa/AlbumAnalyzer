@@ -1,0 +1,30 @@
+{% extends "songs/base_menu.html" %}
+{% block content %}
+  <head>
+    <meta charset="utf-8" />
+    <title>Songs: Analyze Keys</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" placeholder="Search..." name="search"
+      {% if search %} value="{{ search }}" {% endif %}
+      >
+      <button type="submit"><i class="fa fa-search"></i></button>
+    <a href="{% url 'songs:album_options_from_search_name' %}"><i class="fa fa-undo"></i></a>
+    </form>
+    <h1>Musical Key Analysis<br></h1>
+    {% autoescape off %}
+    {{ danceability_list_plot }}
+    {% endautoescape %}
+    <h2><b>{{ album_and_artist }}</b></h2>
+    <p><img
+      class="chosen_album_cover"
+      src={{ album_art_link }}
+      alt="Image for "{{ album_and_artist }}
+      style="width:200px;height:200px;border-radius:5%;box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);"
+      >
+    </p>
+    </div>
+      </div>
+    </body>
+{% endblock %}

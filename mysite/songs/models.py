@@ -17,7 +17,7 @@ class Song(models.Model):
         validators=[MinLengthValidator(
             2, "Name must be greater than 1 character")]
     )
-    # TODO: make sure the float fields are between 0 and 1
+    # TODO: make sure the float fields are between 0 and 1 not including loudness & tempo
     danceability = models.FloatField()
     energy = models.FloatField()
     key = models.CharField(max_length=3)

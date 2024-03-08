@@ -44,7 +44,9 @@
         <span class="d-none d-lg-block"
           ><img
             class="img-fluid img-profile rounded-circle mx-auto mb-2"
-            src="{% static 'profile2.png' %}"
+            {% comment %} src="{% static 'profile2.png' %}" {% endcomment %}
+            {% comment %} src="{% static 'portrait_cropped_circle2.JPG' %}" {% endcomment %}
+            src="{% static 'profile_white_bg.png' %}"
             alt="Profile Image for Stephen Telles"
         /></span>
       </a>
@@ -82,9 +84,6 @@
               >Interests</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
-          </li>
         </ul>
       </div>
     </nav>
@@ -102,25 +101,29 @@
             <a href="mailto:name@email.com">stephenatelles@gmail.com</a>
           </div>
           <p class="lead mb-5">
-            Welcome to my portfolio! Feel free to check out some of my favorite projects below:
+            Welcome to my portfolio! Feel free to check out my AlbumAnalyzer project below:
             <div class="songs-app-links-holder">
-                <p class="song-app-link">
-                    <a class="project-link" href='/songs'>Songs CRUD</a>
-                </p>
-                <p class="song-app-link">
-                    <a class="project-link" href='/songs/track_options_from_search'>Search For A Track</a>
-                </p>
+              <a class="song-app-link project-link"
+              href='/songs/album_options_from_search'
+              style="display: flex; flex-direction: column;
+              align-items: center;
+              "
+              >
+              <img
+              src="{% static 'AlbumAnalyzer.jpg' %}"
+              alt="AlbumAnalyzer"
+              {% comment %} style="width: 10%; height: auto;" {% endcomment %}
+              style="width:10%;border-radius:5%;box-shadow: 2px 52x 4px 1px rgba(0,0,0,.8);"
+              >
+              AlbumAnalyzer
+            </a>
             </div>
           </p>
           <div class="social-icons">
-            <a class="social-icon" href="#!"
-              ><i class="fab fa-linkedin-in"></i
-            ></a>
-            <a class="social-icon" href="#!"><i class="fab fa-github"></i></a>
-            <a class="social-icon" href="#!"><i class="fab fa-twitter"></i></a>
-            <a class="social-icon" href="#!"
-              ><i class="fab fa-facebook-f"></i
-            ></a>
+            <a class="social-icon" href="https://linkedin.com/in/stephentelles"><i class="fab fa-linkedin-in"></i></a>
+            <a class="social-icon" href="https://github.com/tellessa"><i class="fab fa-github"></i></a>
+            {% comment %} <a class="social-icon" href="#!"><i class="fab fa-twitter"></i></a>
+            <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a> {% endcomment %}
           </div>
         </div>
       </section>
@@ -208,23 +211,23 @@ and private sector clients, ensuring optimal system performance and compliance w
             class="d-flex flex-column flex-md-row justify-content-between mb-5"
           >
             <div class="flex-grow-1">
-              <h3 class="mb-0">University of Colorado Boulder</h3>
-              <div class="subheading mb-3">Bachelor of Science</div>
-              <div>Computer Science - Web Development Track</div>
-              <p>GPA: 3.23</p>
+              <h3 class="mb-0">Franciscan University of Steubenville</h3>
+              <div class="subheading mb-3">Bachelor of Arts, Biology</div>
+              {% comment %} <div>Biology</div> {% endcomment %}
+              {% comment %} <p>GPA: 3.23</p> {% endcomment %}
             </div>
             <div class="flex-shrink-0">
-              <span class="text-primary">August 2006 - May 2010</span>
+              <span class="text-primary">August 2011 - May 2015</span>
             </div>
           </div>
           <div class="d-flex flex-column flex-md-row justify-content-between">
             <div class="flex-grow-1">
-              <h3 class="mb-0">James Buchanan High School</h3>
-              <div class="subheading mb-3">Technology Magnet Program</div>
-              <p>GPA: 3.56</p>
+              <h3 class="mb-0">Saint Joseph Academy High School</h3>
+              {% comment %} <div class="subheading mb-3">Technology Magnet Program</div> {% endcomment %}
+              {% comment %} <p>GPA: 3.56</p> {% endcomment %}
             </div>
             <div class="flex-shrink-0">
-              <span class="text-primary">August 2002 - May 2006</span>
+              <span class="text-primary">September 2007 - May 2011</span>
             </div>
           </div>
         </div>
@@ -236,36 +239,35 @@ and private sector clients, ensuring optimal system performance and compliance w
           <h2 class="mb-5">Skills</h2>
           <div class="subheading mb-3">Programming Languages & Tools</div>
           <ul class="list-inline dev-icons">
-            <li class="list-inline-item"><i class="fab fa-html5"></i></li>
-            <li class="list-inline-item"><i class="fab fa-css3-alt"></i></li>
-            <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
-            <li class="list-inline-item"><i class="fab fa-angular"></i></li>
+            <li class="list-inline-item"><i class="fab fa-python"></i></li>
             <li class="list-inline-item"><i class="fab fa-react"></i></li>
-            <li class="list-inline-item"><i class="fab fa-node-js"></i></li>
-            <li class="list-inline-item"><i class="fab fa-sass"></i></li>
-            <li class="list-inline-item"><i class="fab fa-less"></i></li>
-            <li class="list-inline-item"><i class="fab fa-wordpress"></i></li>
-            <li class="list-inline-item"><i class="fab fa-gulp"></i></li>
-            <li class="list-inline-item"><i class="fab fa-grunt"></i></li>
-            <li class="list-inline-item"><i class="fab fa-npm"></i></li>
+            <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
+            <li class="list-inline-item"><i class="fab fa-git"></i></li>
+            <li class="list-inline-item"><i class="fab fa-github"></i></li>
+            <li class="list-inline-item"><i class="fab fa-aws"></i></li>
+            <li class="list-inline-item"><i class="fab fa-linux"></i></li>
+            <li class="list-inline-item"><i class="fab fa-css3-alt"></i></li>
+            <li class="list-inline-item"><i class="fab fa-html5"></i></li>
+            {% comment %} TODO: SQL {% endcomment %}
+            {% comment %} TODO: Django {% endcomment %}
           </ul>
-          <div class="subheading mb-3">Workflow</div>
+          <div class="subheading mb-3">Specialization</div>
           <ul class="fa-ul mb-0">
-            <li>
+            {% comment %} <li>
               <span class="fa-li"><i class="fas fa-check"></i></span>
               Mobile-First, Responsive Design
+            </li> {% endcomment %}
+            <li>
+              <span class="fa-li"><i class="fas fa-check"></i></span>
+              Over two years experience in Python automation and data processing with Pandas & NumPy
             </li>
             <li>
               <span class="fa-li"><i class="fas fa-check"></i></span>
-              Cross Browser Testing & Debugging
+              Project experience developing web applications with Django and JavaScript
             </li>
             <li>
               <span class="fa-li"><i class="fas fa-check"></i></span>
-              Cross Functional Teams
-            </li>
-            <li>
-              <span class="fa-li"><i class="fas fa-check"></i></span>
-              Agile Development & Scrum
+              Agile development & Scrum
             </li>
           </ul>
         </div>
@@ -276,84 +278,15 @@ and private sector clients, ensuring optimal system performance and compliance w
         <div class="resume-section-content">
           <h2 class="mb-5">Interests</h2>
           <p>
-            Apart from being a web developer, I enjoy most of my time being
-            outdoors. In the winter, I am an avid skier and novice ice climber.
-            During the warmer months here in Colorado, I enjoy mountain biking,
-            free climbing, and kayaking.
+            Apart from being a developer, I enjoy listening to a variety of music and playing guitar and singing.
+            Thanks to the clement weather here in California, I also enjoy biking, walking and jogging at the beach year-round.
           </p>
           <p class="mb-0">
-            When forced indoors, I follow a number of sci-fi and fantasy genre
-            movies and television shows, I am an aspiring chef, and I spend a
-            large amount of my free time exploring the latest technology
-            advancements in the front-end web development world.
+            When spending time indoors, I am improving my cooking skills one day at a time and recently discovered my new favorite recipe for pizza. As a lifelong learner I also spend a large amount of my free time studying and implementing the latest technology advancements in the software development & data analytics world.
           </p>
         </div>
       </section>
       <hr class="m-0" />
-      <!-- Awards-->
-      <section class="resume-section" id="awards">
-        <div class="resume-section-content">
-          <h2 class="mb-5">Awards & Certifications</h2>
-          <ul class="fa-ul mb-0">
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              Google Analytics Certified Developer
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              Mobile Web Specialist - Google Certification
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              1
-              <sup>st</sup>
-              Place - University of Colorado Boulder - Emerging Tech Competition
-              2009
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              1
-              <sup>st</sup>
-              Place - University of Colorado Boulder - Adobe Creative Jam 2008
-              (UI Design Category)
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              2
-              <sup>nd</sup>
-              Place - University of Colorado Boulder - Emerging Tech Competition
-              2008
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              1
-              <sup>st</sup>
-              Place - James Buchanan High School - Hackathon 2006
-            </li>
-            <li>
-              <span class="fa-li"
-                ><i class="fas fa-trophy text-warning"></i
-              ></span>
-              3
-              <sup>rd</sup>
-              Place - James Buchanan High School - Hackathon 2005
-            </li>
-          </ul>
-        </div>
-      </section>
-    </div>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

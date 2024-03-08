@@ -1,0 +1,50 @@
+{% extends "songs/base_menu.html" %}
+{% block content %}
+  <head>
+    <meta charset="utf-8" />
+    <title>Songs: Search Track</title>
+  </head>
+  <body>
+    <br />
+    <form>
+      <input type="text" placeholder="Search..." name="search"
+      {% if search %} value="{{ search }}" {% endif %}
+      >
+      <button type="submit"><i class="fa fa-search"></i></button>
+    <a href="{% url 'songs:all' %}"><i class="fa fa-undo"></i></a>
+    </form>
+    <h1>Search Results for Track {{ search }}</h1>
+    <div class="track_option">
+      <form action="{% url 'songs:song_favorite' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="name" value= {{ name }}>
+        {% for key, value in track_features.items %}
+          <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <button type="submit">Add to Favorites</button>
+      </form>
+        <p>Track Name: {{match.name}}</p>
+        <p><img src={{img_source}} alt="Image for "{{match.album.name}} width="200" height="200"></a></p>
+    </div>
+      </div>
+      <div id="table-holder">
+        <table style="font-weight: bold;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                {% for item in row %}
+                <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+  </body>
+{% endblock %}

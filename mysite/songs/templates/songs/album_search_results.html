@@ -39,7 +39,7 @@
                 class="search_album_cover"
                 src={{match.album.images.0.url}}
                 alt="Image for "{{match.album.name}}
-                style="width:50px;height:50px;border-radius:5%;box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);"
+                style="width:50px;height:50px;border-radius:5%;"
                 >
               </a></p>
               <p><b>{{match.name}}</b></p>
@@ -58,7 +58,7 @@
                 {% for key, value in match.track_features.items %}
                   <input type="hidden" name="{{ key }}" value="{{ value }}">
                 {% endfor %}
-                <button type="submit">Save for Analysis</button>
+                <button type="submit">Add to Favorites</button>
               </form>
             </td>
           </tr>

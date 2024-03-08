@@ -9,12 +9,6 @@
   <head>
     <!-- Edit dj4e-samples/settings.py and add APP_NAME = 'DJ4E Samples' or similar -->
     <title>{% block title %}{{ settings.APP_NAME }}{% endblock %}</title>
-
-    <link
-      rel="stylesheet"
-      href="{% static 'main.css' %}"
-      crossorigin="anonymous"
-    />
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -50,7 +44,11 @@
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/v4-shims.css"
     />
-
+    <link
+      rel="stylesheet"
+      href="{% static 'dj4e.css' %}"
+      crossorigin="anonymous"
+    />
     <meta name="dj4e-version" content="2022-11-01" />
 
     {% block head %} {% endblock %}
