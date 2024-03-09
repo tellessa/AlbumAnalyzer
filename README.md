@@ -14,15 +14,11 @@ To run AlbumAnalyzer, download python 3.9 or later and check "add to path".
 Once python is in the environment path variable, open a terminal, and run the following commands
 
 ```bash
-git clone https://github.com/tellessa/data_engineering.git
+git clone https://github.com/tellessa/AlbumAnalyzer.git
 ```
 
 ```bash
-cd data_engineering
-```
-
-```bash
-python -m venv .venv
+cd AlbumAnalyzer
 ```
 
 ```bash
