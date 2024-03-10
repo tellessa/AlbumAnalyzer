@@ -38,7 +38,7 @@ Finally, before running the server, you'll need to obtain a spotify client id an
 To obtain these credentials, see the Spotify API docs: https://developer.spotify.com/documentation/web-api/concepts/apps.
 Once you have them, replace foobar and foobar2 with each of them and export them into the environment before finally running the server:
 ```bash
-export SPOTIFY_CLIENT_ID=foobar; export SPOTIFY_CLIENT_SECRET=foobar2
+export SPOTIPY_CLIENT_ID=foobar; export SPOTIPY_CLIENT_SECRET=foobar2
 ```
 ```bash
 python manage.py runserver
