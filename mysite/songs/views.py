@@ -17,6 +17,7 @@ import plotly.graph_objects as graphs
 
 from songs.spotipy_audio_features_for_track import sp
 
+
 def react_example(request):
     return render(request, "songs/react-example.html")
 
@@ -34,24 +35,40 @@ def analyze_album_keys(request):
     match_uri = match['uri']
     artist_title = ", ".join([artist["name"] for artist in artists])
     tracks = sp.album_tracks(match_uri)["items"]
-    album_track_features: list = []
-    for track in tracks:
-        track_uri = track['uri']
-        track_features: dict = get_track_features(track_uri)
-        album_track_features.append(track_features)
+    song_names: list = [track["name"] for track in tracks]
+    album_track_features: list = [get_track_features(track['uri']) for track in tracks]
 
-    song_names = [track["name"] for track in tracks]
-    # keys = [feature_set["key"] for feature_set in album_track_features]
-    keys = []
+
+    keys_plot_html = make_keys_plot(song_names, album_track_features)
+    plots = [keys_plot_html]
+    normed_features = [
+        'danceability',
+        'energy',
+        # These 2 don't get y axis labels for some reason
+        # 'speechiness',
+        # 'liveness',
+        'acousticness',
+        'instrumentalness',
+        'valence']
+    for feature in normed_features:
+        plot_html = make_normalized_plot(song_names, album_track_features, feature)
+        plots.append(plot_html)
+
+    context = {
+        'plots': plots,
+        'album_and_artist': f"{name} by {artist_title}",
+        'search': query_string,
+        'album_art_link': album_art_link,
+    }
+    return render(request, 'songs/analyze_keys_full_album.html', context)
+
+
+def make_keys_plot(song_names, album_track_features):
+    keys: list = [feature_set["key"] for feature_set in album_track_features]
     # Set the value for song danceability on Y-Axis
-    # Don't have song objects per se, but we could, even without needing to save them to the db.
-    for idx, feature_set in enumerate(album_track_features):
-        keys.append(feature_set["key"])
-
     # A list of alphabetical representations of musical keys, starting at C and ending at B.
     # I want my y axis to appear in this order
     possible_keys = spotipy_audio_features_for_track.KEYS
-
     y_axis_ticks = [possible_keys.index(key) for key in keys]
 
     # Create the scatter plot
@@ -82,15 +99,46 @@ def analyze_album_keys(request):
 
     # Generate a scatter plot HTML
     plot_html = plot(fig, output_type='div')
-    context = {
-        'danceability_list_plot': plot_html,
-        'album_and_artist': f"{name} by {artist_title}",
-        'search': query_string,
-        'album_art_link': album_art_link,
-    }
-    return render(request, 'songs/analyze_keys_full_album.html', context)
-    # img_source = match["album"]["images"][0]["url"]
-    # match_tuples.append((top_match_uri, name, img_source))
+    return plot_html
+
+
+def make_normalized_plot(song_names, album_track_features, feature):
+    danceability_scores: list = [feature_set[feature] for feature_set in album_track_features]
+
+    # Set the value for song danceability on Y-Axis
+    # I want my y axis to appear in this order
+
+    y_axis_ticks = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+
+    # Create the scatter plot
+    fig = graphs.Figure(data=graphs.Scatter(
+    x=song_names,
+    y=danceability_scores,  # Map keys to their indices in possible_keys
+    # mode='markers',
+    marker=dict(
+        size=15,
+        color='blue',
+        symbol='circle'
+    )
+    ))
+
+    # Customize the layout
+    fig.update_layout(
+    xaxis_title="Song Name",
+    yaxis_title=feature.title(),
+    yaxis=dict(
+        tickvals=y_axis_ticks,
+        ticktext=y_axis_ticks,
+    ),
+    font=dict(
+        family="Arial",
+        size=12
+    )
+    )
+
+    # Generate a scatter plot HTML
+    plot_html = plot(fig, output_type='div')
+    return plot_html
 
 
 def album_options_from_search(request):
@@ -145,6 +193,7 @@ def get_top_song_matches(track_search_term_from_user: str):
     # Here we limit it to the tracks that were returned by the query
     matches = spotipy_audio_features_for_track.search(track_search_term_from_user)['tracks']['items']
     return matches
+
 
 def get_top_album_matches(track_search_term_from_user: str):
     # Example from spotipy docs;
@@ -289,6 +338,7 @@ def analyze_keys(request):
     plot_html = plot(fig, output_type='div')
 
     return render(request, 'songs/analyze_keys.html', {'danceability_list_plot': plot_html})
+
 
 class AddToFavorites(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
