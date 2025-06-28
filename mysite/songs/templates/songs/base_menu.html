@@ -31,9 +31,6 @@
         <a href="{% url 'songs:song_analyze_name' %}">Analyze Song Danceability</a>
     </li> {% endcomment %}
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
-        <a href="{% url 'songs:album_options_from_search_name' %}">Analyze Song Keys for Album</a>
-    </li>
-    <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a href="{% url 'home' %}">View Portfolio</a>
     </li>
     {% comment %} <li {% if request.get_full_path == songs %}class="active"{% endif %}>
