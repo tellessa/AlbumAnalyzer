@@ -17,6 +17,9 @@ import plotly.graph_objects as graphs
 
 from songs.spotipy_audio_features_for_track import sp
 
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
 
 def react_example(request):
     return render(request, "songs/react-example.html")
@@ -150,17 +153,6 @@ def track_options_from_search(request):
     matches: list = get_top_song_matches(query_string)
     matches = matches[0:5]
     # One option: add more info to this dictionary
-    match: dict = matches[0]
-
-    # match_tuples = []
-    for i, match in enumerate(matches):
-        top_match_uri = match['uri']
-        track_features: dict = get_track_features(top_match_uri)
-        match["track_features"] = track_features
-        # Anything with a space gets cut after the first space for some reason, so I convert spaces to underscores and back to spaces later
-        match["name"] = match["name"].replace(" ", "_")
-        # img_source = match["album"]["images"][0]["url"]
-        # match_tuples.append((top_match_uri, name, img_source))
 
     context = {
         # "matches": match_tuples,
@@ -272,6 +264,28 @@ def add_to_favorites(request, *args, **kwargs):
 
     return HttpResponseRedirect(reverse_lazy('songs:all'))
 
+
+def about(request):
+    dynamic_data = "abc"
+
+    return render(request, 'songs/about.html', {'dynamic_data': dynamic_data})
+
+def playlists(request):
+    auth_manager = SpotifyClientCredentials()
+    sp = spotipy.Spotify(auth_manager=auth_manager)
+
+    playlists = sp.user_playlists('spotify')
+    playlists_string = ""
+    while playlists:
+        for i, playlist in enumerate(playlists['items']):
+            print(f"{i + 1 + playlists['offset']:4d} {playlist['uri']} {playlist['name']}")
+            playlists_string += f"\n{i + 1 + playlists['offset']:4d} {playlist['uri']} {playlist['name']}"
+        if playlists['next']:
+            playlists = sp.next(playlists)
+        else:
+            playlists = None
+
+    return render(request, 'songs/playlists.html', {'playlists_string': playlists_string})
 
 def analyze(request):
     songs = Song.objects.all()
