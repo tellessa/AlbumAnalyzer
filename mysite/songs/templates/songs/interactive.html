@@ -41,9 +41,10 @@
     This page features a simple web form for entering 2 numbers, along with the
     `=` button for submitting the data. As commonplace as such a form may appear, there is a surprising amount to be learned by thoroughly understanding what goes on when the button is pressed. Specifically, a pattern called Post/Redirect/Get is being employed. Let's go over what this looks like step by step.
   </p>
-  <h5>The Big Picture</h5>
+  <br></br>
     <ol>
       <li>On the initial load (user goes to /interactive), a GET request is sent to the server. Django matches this url to its appropriate <a href=https://docs.djangoproject.com/en/5.2/topics/http/views/>view function.</a>.When the view function executes, it defaults the values of both inputs to None, and the view function concludes by calling Django's builtin render method with a template called `interactive.html`. Using Django Templating Language, `interactive.html` features conditional logic to parse the response and any additional context passed to it by the view function. Specifically, it will check if Num1, Num2, Result and Error are None. On this initial GET request, all of them start with default values of None. Accordingly, the form appears with blank inputs and an empty space after the `=` button. </li>
+      <br></br>
       <li>You fill out the form and press the `=` button. This time a POST request is sent to the same endpoint- `/interactive`. The same view function executes, but this time enters the branch of code meant to handle POST requests, by checking that request.method == "POST". The values, which are of data type string when the front end sends them over HTTP to the server, are converted by Python from strings e.g. "5" and "3", to floats i.e. 5.0 and 3.0, and simple addition yields the result (8.0). The context is populated with values of num1=5.0, num2=3.0, result=8.0, error_message=None. Just as with the GET request, the view function concludes by rendering the same template, `interactive.html`, this time with the values provided by the user (converted to floats, meaning "3" will be rendered as 3.0) and the result calculated by the server.</li>
     </ol>
 </body>
