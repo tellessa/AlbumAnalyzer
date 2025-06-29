@@ -265,6 +265,51 @@ def add_to_favorites(request, *args, **kwargs):
     return HttpResponseRedirect(reverse_lazy('songs:all'))
 
 
+def interactive_python_concept(request):
+    result = None
+    num1 = None
+    num2 = None
+    error_message = None
+    context = {
+        'num1': num1,
+        'num2': num2,
+        'result': result,
+        'error_message': error_message,
+    }
+
+    if request.method == 'POST':
+        try:
+            num1_str = request.POST.get('num1')
+            num2_str = request.POST.get('num2')
+
+            num1 = float(num1_str)
+            num2 = float(num2_str)
+
+            result = num1 + num2
+            context['num1'] = num1
+            context['num2'] = num2
+            context['result'] = result
+
+        except (ValueError, TypeError):
+            error_message = "Please enter valid numbers for both fields."
+            # Update context with error message (and potentially keep original nums if they were partially valid)
+            context['error_message'] = error_message
+            # It's good practice to also put back the string versions for num1/num2
+            # so the user doesn't lose their potentially invalid input
+            context['num1'] = num1_str
+            context['num2'] = num2_str
+        except Exception as e: # Catch any other unexpected errors
+            error_message = f"An unexpected error occurred: {e}"
+            context['error_message'] = error_message
+            # Keep original strings for user
+            context['num1'] = num1_str
+            context['num2'] = num2_str
+
+    return render(
+        request,
+        'songs/interactive.html',
+        context
+    )
 def about(request):
     dynamic_data = "abc"
 

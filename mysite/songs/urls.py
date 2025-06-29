@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 app_name = 'songs'
 urlpatterns = [
     path('', views.MainView.as_view(), name='all'),
+    path('interactive', views.interactive_python_concept, name='interactive_python_concept_name'),
     path('about', views.about, name='about_name'),
 
     path('playlists', views.playlists, name='playlists_name'),
