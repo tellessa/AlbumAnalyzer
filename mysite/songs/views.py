@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Using the built-in generics
 # https://docs.djangoproject.com/en/4.2/topics/class-based-views/generic-display/
@@ -5,8 +6,18 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views import View
 from django.urls import reverse_lazy
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, JsonResponse
+# from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+
+import google.genai as genai
+from google.api_core.exceptions import (
+    GoogleAPIError, # Base class for most Google API errors
+    InternalServerError,
+    InvalidArgument,
+    PermissionDenied,
+    ResourceExhausted, # This is often for rate limits
+)
 
 from songs import spotipy_audio_features_for_track
 
@@ -264,6 +275,43 @@ def add_to_favorites(request, *args, **kwargs):
 
     return HttpResponseRedirect(reverse_lazy('songs:all'))
 
+
+# @csrf_exempt
+def generate_text_view(request):
+    if request.method == 'POST':
+        try:
+            prompt = request.POST.get('prompt')
+
+            if not prompt:
+                return JsonResponse({"error": "No prompt provided"}, status=400)
+
+            client = genai.Client()
+            response = client.models.generate_content(
+                model='gemini-1.5-flash', # Or 'gemini-1.5-pro', etc.
+                contents=prompt
+            )
+
+            generated_text = response.text
+            context = {"generated_text": generated_text}
+            return render(request, 'songs/generate_text.html', context)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON in request body."}, status=400)
+        except ResourceExhausted as e: # Catch rate limit errors specifically
+            return JsonResponse({"error": f"Gemini API Rate Limit Exceeded: {str(e)}. Please try again later."}, status=429)
+        except PermissionDenied as e: # Catch API key or permission issues
+            return JsonResponse({"error": f"Gemini API Permission Denied: {str(e)}. Check your API key and project settings."}, status=403)
+        except InvalidArgument as e: # Catch malformed requests or invalid parameters
+            return JsonResponse({"error": f"Gemini API Invalid Argument: {str(e)}. Check your prompt or model configuration."}, status=400)
+        except InternalServerError as e: # Catch server-side errors on Google's end
+            return JsonResponse({"error": f"Gemini API Internal Server Error: {str(e)}. Google's servers might be experiencing issues."}, status=500)
+        except (GoogleAPIError, Exception) as e: # Catch any other API errors or general exceptions
+            return JsonResponse({"error": f"An unexpected error occurred with the Gemini API: {str(e)}"}, status=500)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    return render(request, 'songs/generate_text.html') # Or whatever your template is
 
 def interactive_python_concept(request):
     result = None
