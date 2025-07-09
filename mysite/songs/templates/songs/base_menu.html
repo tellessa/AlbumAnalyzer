@@ -13,8 +13,8 @@
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <img
         {% comment %} class="img-fluid img-profile rounded-circle mx-auto mb-2" {% endcomment %}
-        src="{% static 'AlbumAnalyzer.jpg' %}"
-        alt="AlbumAnalyzer Logo"
+        src="{% static 'LLMChat.png' %}"
+        alt="LLMChat Logo"
         style="width:50px;height:50px;border-radius:5%;box-shadow: 2px 52x 4px 1px rgba(0,0,0,.8);"
         >
     </li>
@@ -32,6 +32,9 @@
     </li> {% endcomment %}
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a href="{% url 'songs:about_name' %}">About</a>
+    </li>
+    <li {% if request.get_full_path == songs %}class="active"{% endif %}>
+        <a href="{% url 'songs:generate_text_name' %}">GenAI Playground</a>
     </li>
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a href="{% url 'songs:interactive_python_concept_name' %}">Post/Redirect/Get Demo</a>

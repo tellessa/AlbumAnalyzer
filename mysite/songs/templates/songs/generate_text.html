@@ -1,0 +1,35 @@
+{% extends "songs/base_menu.html" %} {% block content %}
+<head>
+  <meta charset="utf-8" />
+  <title>LLMChat</title>
+</head>
+<body>
+  <br />
+  <h1>Welcome to LLMChat!</h1>
+  {% if error_message %}
+  <p class="error-message">{{ error_message }}</p>
+  {% endif %}
+  <br></br>
+  {% comment %} TODO: add some google fonts {% endcomment %}
+  <p style="font-size:24px; text-align:left;">
+    {{ generated_text }}
+  </p>
+  <h4>
+    Type your prompt below
+  </h4>
+  <form action="" method="post" style="height:80%">
+    {% csrf_token %}
+    <div class="llm_prompt_container" style="height:80px">
+      <input
+        type="textarea"
+        style="width:50%;height:100%;border-radius:10%"
+        id="prompt"
+        name="prompt"
+        value="{{ num1|default_if_none:'' }}"
+      />
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+  <br></br>
+</body>
+{%endblock%}

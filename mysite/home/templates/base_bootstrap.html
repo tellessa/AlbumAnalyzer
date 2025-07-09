@@ -11,6 +11,11 @@
     <title>{% block title %}{{ settings.APP_NAME }}{% endblock %}</title>
     <link
       rel="stylesheet"
+      href="{% static 'dj4e.css' %}"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
       crossorigin="anonymous"
     />
@@ -43,11 +48,6 @@
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/v4-shims.css"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'dj4e.css' %}"
-      crossorigin="anonymous"
     />
     <meta name="dj4e-version" content="2022-11-01" />
 
