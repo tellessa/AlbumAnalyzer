@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Python: MacOS Django Songs App ",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/mysite/manage.py",
             "args": [
@@ -17,7 +17,7 @@
         },
         {
             "name": "Python: Windows Django Songs App ",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}\\mysite\\manage.py",
             "args": [
@@ -28,7 +28,7 @@
         },
         {
             "name": "Python: Django",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}\\django_data_engineering\\manage.py",
             "args": [
@@ -39,7 +39,7 @@
         },
         {
             "name": "Python: main_ui",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "main_ui.py",
             "console": "integratedTerminal",
@@ -47,7 +47,7 @@
         },
         {
             "name": "Python: audio features",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "apis/spotipy_audio_features_for_track.py",
             "console": "integratedTerminal",
@@ -55,7 +55,7 @@
         },
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
