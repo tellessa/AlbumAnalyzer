@@ -34,7 +34,7 @@
         <a href="{% url 'songs:about_name' %}">About</a>
     </li>
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
-        <a href="{% url 'songs:generate_text_name' %}">GenAI Playground</a>
+        <a href="{% url 'songs:generate_text_name' %}">LLM Chat</a>
     </li>
     <li {% if request.get_full_path == songs %}class="active"{% endif %}>
         <a href="{% url 'songs:interactive_python_concept_name' %}">Post/Redirect/Get Demo</a>
